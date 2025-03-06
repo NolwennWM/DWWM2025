@@ -1,0 +1,100 @@
+*, ::before, ::after
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+ul
+{
+    position: absolute;
+    top: 50%;
+    left: -50%;
+    transform: translate(-50%, -50%);
+    /* 
+        Indiquer une durée de transition, va appliquer à tout changement de propriété, de prendre ce temps pour changer de valeur.
+        Exemple, ici le left passait de -50% à 50% instantanément, en indiquant 1s, il prendra donc 1s pour passer doucement de -50% à 50%
+    */
+    transition-duration: 1s;
+    /* 
+        On pourra indiquer d'utiliser la transition que sur certaines propriétés, ici left
+    */
+    transition-property: left;
+    /* 
+        Permet d'appliquer un délai d'attente avant le début de la transition
+    */
+    transition-delay: 0.5s;
+    /* 
+        modifie le rythme (et non la durée) de la transition.
+        Certains mots clefs (ease, linear, ease-in, ease-out, ease-in-out) permettent des effets classiques comme démarrer lentement et arriver rapidement.
+        On peut aussi avoir un rythme totalement personnalisé grace aux cubic-bezier
+        https://cubic-bezier.com/
+    */
+    transition-timing-function:cubic-bezier(1,.2,1,-0.44);
+}
+li
+{
+    margin: 1rem 0;
+    display: inline-block;
+}
+button
+{
+    font-size: 3rem;
+    aspect-ratio: 1/1;
+}
+input#burger{display: none;}
+input#burger:checked ~ ul{left: 50%;}
+
+li:nth-child(1) button
+{
+    background-color: chartreuse;
+    /* On peut indiquer plusieurs propriétés séparés d'une virgule */
+    transition-property: background-color, transform;
+    /* De même pour les autres propriétés, la première valeur s'appliquant à la première propriété, la seconde à la seconde et ainsi de suite 
+    si plus de propriété sont précisées que de paramètre, c'est le premier paramètre qui est utilisé
+    */
+    transition-duration: 1s, 2s;
+    /* En indiquant une seule valeur, elle s'appliquera à toute les propriétés */
+    transition-delay: 0.3s;
+    transition-timing-function: ease-out;
+}
+li:nth-child(1) button:hover
+{
+    background-color: darkviolet;
+    transform: rotate(180deg);
+}
+li:nth-child(2) button
+{
+    /* valeur par défaut, toute les propriétés */
+    transition-property: all;
+    transition-duration: 3s;
+    /* steps permet de remplacer la transition fluide, par une transition en étape, ici il fera 5 étapes pour transitionner complètement */
+    transition-timing-function: steps(5, jump-start);
+}
+li:nth-child(2) button:hover
+{
+    /* 
+        Pas toute les propriétés peuvent être transitionné.
+        Ce sera généralement les propriétés prenant une valeur numérique ou de couleur qui peuvent transitionner.
+    */
+    border-radius: 50%;
+}
+li:nth-child(3) button
+{
+    /* La propriété transition regroupe toute les propriétés de transition. première durée, duration, seconde durée, le délai */
+    transition: box-shadow 1s 0.3s linear;
+}
+li:nth-child(3) button:active
+{
+    box-shadow: 10px 50px 20px 40px red;
+}
+li:nth-child(4) button{
+    /* transition: transform 1s linear; */
+}
+li:nth-child(4):hover button{
+    /* lors d'un déplacement, une modification de taille ou autre, avec un hover, attention car vous pouvez perdre le fait d'être au survol.
+    Une solution sera de mettre le survol sur le parent, ici le li */
+    transform: scale(0.5);
+    /* si la transition est placé non pas sur l'élément de base, mais sur sa version modifié, alors la transition ne se fera que dans un sens.
+    Par exemple ici, au hover la transition est bien appliqué, mais lorsque l'on quitte l'élément, il reprend sa forme d'origine sans transition */
+    transition: transform 1s linear;
+}
