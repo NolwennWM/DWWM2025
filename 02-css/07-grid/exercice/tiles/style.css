@@ -1,0 +1,137 @@
+*, ::after,::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1{
+    text-align: center;
+    font-weight: 600;
+    margin-top: 4rem;
+    font-size: 6rem;
+}
+
+.layout-grid{
+    width: 90%;
+    height: 90%;
+    display: grid;
+    /* 
+    4 colonnes
+    5 rangées 
+    */
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5,1fr);
+    gap: 2rem;
+    margin: 1rem 5rem;
+    /* 
+    a = 1
+    b = 2
+    c = 3
+    d = 4
+    e = 5
+    f = 6
+    g = 7
+    h = 8
+    i = 9
+     */
+    grid-template-areas:
+    "a a a b"
+    "a a a c"
+    "d d d d"
+    "e f f f"
+    "e g h i" ;
+}
+
+img{
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1/1;
+}
+.num-1{
+    grid-area: a;
+    aspect-ratio: 3/1;
+}
+.num-2{
+    grid-area: b;
+}
+.num-3{
+    grid-area: c;
+}
+.num-4{
+    grid-area: d;
+    aspect-ratio: 4/1;
+}
+.num-5{
+    grid-area: e;
+    aspect-ratio: 1/2;
+}
+.num-6{
+    grid-area: f;
+    aspect-ratio: 3/1;
+}
+.num-7{
+    grid-area: g;
+}
+.num-8{
+    grid-area: h;
+}
+.num-9{
+    grid-area: i;
+}
+
+@media screen and (min-device-width : 320px) and (max-device-width : 687px){
+h1{
+font-size: 4rem;
+}
+
+.layout-grid{
+    width: 90%;
+    height: 90%;
+    display: grid;
+    /* 
+    4 colonnes
+    5 rangées 
+    */
+    grid-template-columns: 1fr;
+    grid-auto-rows: 1fr;
+    gap: 2rem;
+    margin: 1rem 2rem;
+    /* 
+    a = 1
+    b = 2
+    c = 3
+    d = 4
+    e = 5
+    f = 6
+    g = 7
+    h = 8
+    i = 9
+     */
+    grid-template-areas:
+        "a"
+        "b"
+        "c"
+        "d"
+        "e"
+        "f"
+        "g"
+        "h"
+        "i";
+}
+img{
+    aspect-ratio: 1/1 !important;
+}
+
+
+}
