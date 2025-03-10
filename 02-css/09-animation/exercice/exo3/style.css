@@ -1,0 +1,40 @@
+*, ::before, ::after
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: lightgrey;
+}
+
+.container{
+    display: flex;
+}
+
+p{
+        background-color: black;
+    font-size: 3rem;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+p span{
+    display: inline-block;
+    color: white;
+    animation-name: autoScroll;
+    animation-duration: 15s;
+    animation-iteration-count: infinite;
+    animation-timing-function:linear ;
+
+}
+
+
+@keyframes autoScroll{
+    from{
+        transform: translateX(0);
+    }
+    to{
+        transform:translateX(-90%)    }
+}

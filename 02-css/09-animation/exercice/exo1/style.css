@@ -1,0 +1,51 @@
+*, ::before, ::after
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    position: relative;
+}
+.loader{
+    border-radius: 50%;
+    animation: tinaTurner 2s linear infinite;
+    border: 5px solid transparent;
+    position: absolute;
+}
+
+
+.loader.red{
+    width: 180px;
+    height: 180px;
+    border-top: 5px solid red;
+    top:5px;
+    animation-duration: 2s;
+}
+
+.loader.crimson{
+    width: 150px;
+    height: 150px;
+    border-top: 5px solid crimson;
+    left: 15px;
+    top: 20px;
+    animation-duration: 1.5s;
+}
+
+.loader.pink{
+    width: 120px;
+    height: 120px;
+    left: 30px;
+    border-top: 5px solid pink;
+    animation-duration: 1s;
+}
+
+
+
+
+
+@keyframes tinaTurner{
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
