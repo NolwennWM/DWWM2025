@@ -1,3 +1,5 @@
 *.zip
 *.mp4
 test.*
+fontawesome-*
+node_modules/
