@@ -1,0 +1,49 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+.content{
+    display: flex;
+    justify-content: center;
+	align-items: center;
+    overflow: hidden;
+}
+.clock{
+	height: 400px;
+	width: 400px;
+	/* border: 1px solid black; */
+	border-radius: 50%;
+	position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	background-image: url(./cadran.jpg);
+	background-size: contain;
+}
+.hour{
+	width: 8px;
+	height: 30%;
+}
+.minute{
+	width: 6px;
+	height: 40%;
+}
+.second{
+	width: 4px;
+	height: 50%;
+}
+.hour,.minute,.second{
+	background-color: black;
+	position: absolute;
+	left: 50%;
+	bottom: 50%;
+	transform-origin: bottom center;
+	/*transition: all 100ms linear;*/
+}
+.pivot{
+	height: 20px;
+	width: 20px;
+	border-radius: 50%;
+	background-color: black;
+	position: absolute;
+}
