@@ -1,4 +1,4 @@
-/**
+/*
     1.Le champ nom d'utilisateur doit tourner au rouge si 
     il contient autre chose que des lettres, - ou _;
 
