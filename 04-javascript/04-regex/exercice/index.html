@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coordonnées et Identifiants</title>
+    <script src="script.js" defer ></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <fieldset>
+        <legend>Coordonnées</legend>
+        <form id="phoneForm">
+            <label for="tel">Téléphone :</label>
+            <br>
+            <input type="text" name="téléphone" id="tel">
+        </form>
+            <br>
+        <form id="mailForm">
+            <label for="mail">Email :</label>
+            <br>
+            <!-- Pour le for il faut reprendre l'id donc mail ! -->
+            <input type="email" name="mail" id="mail">
+        </form>
+    </fieldset>
+    
+    <fieldset>
+        <legend>Identifiants</legend>
+        <br>
+        <label for="Name">Nom d'utilisateurs :</label>
+        <br>
+        <input type="text" name="Nom" id="Name">
+        <br>
+        <br>
+        <label for="mdp">Mot de Passe :</label>
+        <br>
+        <input type="password" id="mdp">
+        <br>
+        <br>
+        <span></span>
+        <br>
+        <label for="mdp2">Confirmation du Mot de Passe :</label>
+        <br>
+        <input type="password" id="mdp2">
+    </fieldset>
+</body>
+</html>
+

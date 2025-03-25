@@ -1,0 +1,9 @@
+span
+{
+    display: inline-block;
+    width: 14.5%;
+    height: 20px;
+    border: 1px solid black;
+    transition: scale 0.3s linear;
+    transform-origin: left;
+}
