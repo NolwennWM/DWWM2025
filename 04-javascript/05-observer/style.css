@@ -13,6 +13,16 @@ main p{
     margin: 0 auto;
     padding: 100px 20px;
     line-height: 1.4;
+    /* Exercice : */
+    opacity: 0%;
+    translate: -32px 0;
+    transition: opacity 300ms ease, translate 300ms ease;
+
+    &.show {
+        opacity: 100%;
+        translate: 0;
+    }
+    /* fin exercice */
 }
 main p:nth-child(even){
     background-color: rgb(106, 54, 54);
