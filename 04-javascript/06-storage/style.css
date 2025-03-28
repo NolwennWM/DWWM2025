@@ -83,3 +83,15 @@ body.dark{
 body.dark h1{
     color: rgb(195, 99, 115);
 }
+.rose
+{
+   background-color: pink;
+}
+.bleu
+{
+   background-color:skyblue;
+}
+.tortue
+{
+   background-color:turquoise;
+}
