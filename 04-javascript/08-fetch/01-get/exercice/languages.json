@@ -1,0 +1,5 @@
+[
+    { "lang": "fr", "titre": "Bonjour", "description": "Javascript ça boulègue !" },
+    { "lang": "en", "titre": "Hello", "description": "Take Javascript with a pinch of salt " },
+    { "lang": "de", "titre": "Hallo", "description": "Javascript :  Nur Bahnhof verstehen"}
+]

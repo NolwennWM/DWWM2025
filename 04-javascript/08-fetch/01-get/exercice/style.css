@@ -1,0 +1,32 @@
+*, ::before, ::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .hero-card{
+        border: black solid;
+        display: inline-block;
+        padding: 2rem;
+        ul{
+            display: none;
+        }
+    }
+}
+
+li{
+    list-style: square;
+}
+
+/* <!-- ====================== Exercice 3 ====================== --> */
+
+img{
+    width: 500px;
+    aspect-ratio: 1/1;
+    margin: 5rem;
+    object-fit: cover;
+}
