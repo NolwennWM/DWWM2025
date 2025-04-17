@@ -1,6 +1,11 @@
 ***REMOVED***
 
-Actuellement seul des cours HTML et CSS sont disponible.
+Actuellement seul des cours HTML,CSS et JS sont disponible.
 
-Message pour tester le pull
-Message pour tester le fork
+***REMOVED***
+
+***REMOVED***
+
+***REMOVED***
+***REMOVED***
+***REMOVED***
