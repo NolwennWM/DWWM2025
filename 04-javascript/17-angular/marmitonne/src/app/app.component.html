@@ -1,13 +1,13 @@
-<h1>Bienvenue sur {{title}} !</h1>
-<h2>{{recetteListe[1].name}}</h2>
+<h1 appBorderCard="red">Bienvenue sur {{title}} !</h1>
+<!-- <h2>{{recetteListe[1].name}}</h2> -->
 <!-- Trois façon de modifier un attribut : -->
-<a href="{{title}}">Lien 1</a><br>
+<!-- <a href="{{title}}">Lien 1</a><br>
 <a [href]="title">Lien 2</a><br>
-<a [attr.href]="title">Lien 3</a>
+<a [attr.href]="title">Lien 3</a> -->
 <!-- On peut aussi faire dépendre une classe d'une condition -->
-<div [class.maSuperClass]="0 < 5">Possède ou non une classe</div>
+<!-- <div [class.maSuperClass]="0 < 5">Possède ou non une classe</div> -->
 <!-- On peut faire quelque chose de ressemblant sur du style -->
-<div [style.color]="0 > 5?'red':'green'">Change ma couleur</div>
+<!-- <div [style.color]="0 > 5?'red':'green'">Change ma couleur</div> -->
 
 <!-- Les évènements : -->
 <!-- <p (click)="selectRecette(recetteListe[0])">{{recetteListe[0].name}}</p> -->
@@ -18,44 +18,28 @@
   avec "#unNom" je crée une variable contenant mon élément.
 -->
 <!-- <input type="number" (input)="0" #inputRecette> -->
-<input type="number" (input)="selectRecette(inputRecette.value)" #inputRecette>
+<!-- <input type="number" (input)="selectRecette(inputRecette.value)" #inputRecette> -->
 <!-- <p>{{ inputRecette.value }}</p> -->
 <!-- Condition récente  -->
-@if(recetteSelected)
+<!-- @if(recetteSelected)
 {
   <p>Vous avez sélectionné : {{ recetteSelected.name }}</p>
 }
 @else 
 {
   <p>Aucune recette correspondante.</p>
-}
+} -->
 <!-- Condition Ancienne -->
-<p *ngIf="recetteSelected">Vous avez sélectionné : {{ recetteSelected.name }}</p>
-<p *ngIf="!recetteSelected">Aucune recette correspondante.</p>
+<!-- <p *ngIf="recetteSelected">Vous avez sélectionné : {{ recetteSelected.name }}</p>
+<p *ngIf="!recetteSelected">Aucune recette correspondante.</p> -->
 <!-- Boucle Récente -->
-@for (recette of recetteListe; track $index) 
+<!-- @for (recette of recetteListe; track $index) 
 {
   <p>{{recette.name}}</p>
-}
+} -->
 <!-- Boucle Ancienne -->
-<p *ngFor="let recette of recetteListe">{{recette.name}}</p>
+<!-- <p *ngFor="let recette of recetteListe">{{recette.name}}</p> -->
 <!-- Sachant que les versions anciennes demandent d'importer "CommonModule" -->
-<div class="container">
-  @for(rec of recetteListe; track $index)
-  {
-          <div class="recette">
-              <div class="image">
-                  <img src="./photos/{{rec.image}}" alt="{{rec.name}}">
-              </div>
-              <ul>
-                  <li><span class="label">Nom :</span> {{rec.name}}</li>
-                  <li><span class="label">Durée :</span> {{rec.duration}} minutes</li>
-                  <li><span class="label">Description :</span> {{rec.description}}</li>
-                  <li><span class="label">Crée le :</span> {{rec.createdAt}}</li>
-              </ul>
-              <span class="type">{{rec.type}}</span>
-          </div>
-          
-      }
-  </div>
+<!-- <hr> -->
 <router-outlet />
+<!-- <hr> -->

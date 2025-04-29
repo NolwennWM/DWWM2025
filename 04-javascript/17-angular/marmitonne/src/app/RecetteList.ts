@@ -60,7 +60,7 @@ export const RECETTES: Recette[] = [
     {
         id: 3,
         name: "Carbonade Flamande",
-        type: Types.dish,
+        type: Types.starter,
         duration: 220,
         description: "Une spécialité de viande longuemant mijoté venant du Nord de la France",
         ingredients: [

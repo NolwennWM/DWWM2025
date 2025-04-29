@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { Recette } from './Recette';
 import { RECETTES } from './RecetteList';
 import { CommonModule } from '@angular/common';
+import { BorderCardDirective } from './border-card.directive';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, BorderCardDirective],
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
