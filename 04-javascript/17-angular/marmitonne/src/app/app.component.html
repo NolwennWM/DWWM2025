@@ -40,4 +40,22 @@
 <!-- Boucle Ancienne -->
 <p *ngFor="let recette of recetteListe">{{recette.name}}</p>
 <!-- Sachant que les versions anciennes demandent d'importer "CommonModule" -->
+<div class="container">
+  @for(rec of recetteListe; track $index)
+  {
+          <div class="recette">
+              <div class="image">
+                  <img src="./photos/{{rec.image}}" alt="{{rec.name}}">
+              </div>
+              <ul>
+                  <li><span class="label">Nom :</span> {{rec.name}}</li>
+                  <li><span class="label">Durée :</span> {{rec.duration}} minutes</li>
+                  <li><span class="label">Description :</span> {{rec.description}}</li>
+                  <li><span class="label">Crée le :</span> {{rec.createdAt}}</li>
+              </ul>
+              <span class="type">{{rec.type}}</span>
+          </div>
+          
+      }
+  </div>
 <router-outlet />
