@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Recette } from '../Recette';
 import { RECETTES } from '../RecetteList';
+import { CommonModule } from '@angular/common';
+import { TypeColorPipe } from '../type-color.pipe';
 
 @Component({
   selector: 'app-detail-recette',
-  imports: [],
+  imports: [CommonModule, TypeColorPipe],
   standalone: true,
   templateUrl: './detail-recette.component.html',
   styleUrl: './detail-recette.component.css'
