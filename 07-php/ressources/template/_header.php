@@ -1,3 +1,4 @@
+<?php $test = "Coucou"; ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -17,6 +18,7 @@
 <body>
     <header>
         <h1><?php echo $title??"Cours PHP" ?></h1>
+        <?php // include __DIR__ . "/_test.php"; ?>
     </header>
     <!-- On ouvre le body ici mais on ne le ferme pas, il sera fermé
     dans le footer. -->
