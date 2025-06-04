@@ -4,26 +4,28 @@ if(session_status() !== PHP_SESSION_ACTIVE)
     session_start();
 }
 
-// Si l'utilisateur n'est pas connecté.
+// If the user is not logged in
 if(!isset($_SESSION["logged"]) || $_SESSION["logged"] !== true)
 {
-    // Alors je le redirige ailleurs :
+    // Then redirect them elsewhere
     header("Location: ./04-connexion.php");
     exit;
 }
 
 /* 
-    Pour déconnecter l'utilisateur.
-    Il me suffit de détruire les informations concernant la connexion dans la session.
+    To log the user out,
+    we simply remove the login-related information from the session.
         unset($_SESSION["logged"]);
         unset($_SESSION["username"]);
         unset($_SESSION["expire"]);
-    Ou alors si je n'ai rien d'autre de sauvegardé en session, détruire la session en entier.
+    Or, if there's nothing else stored in the session,
+    we can destroy the entire session.
 */
 unset($_SESSION);
 session_destroy();
 setcookie("PHPSESSID", "", time()-3600);
-// Puis une fois déconnecté, on redirige l'utilisateur ailleurs :
+
+// Then once logged out, redirect the user elsewhere
 header("Location: ./04-connexion.php");
 exit;
 ?>
