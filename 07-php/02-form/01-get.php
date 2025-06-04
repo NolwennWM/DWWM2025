@@ -40,18 +40,28 @@ if($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["meal"]))
         $food = $_GET["food"];
         if(!in_array($food, $foodList))
         {
+<<<<<<< HEAD
             $error["food"] = "This meal does not exist";
         }
     } // end of food check
     if(empty($_GET["drink"]))
     {
         $error["drink"] = "Please select a drink";
+=======
+            $error["food"] = "Ce repas n'existe pas";
+        }
+    }//fin vérification food
+    if(empty($_GET["drink"]))
+    {
+        $error["drink"] = "Veuillez selectionner une boisson";
+>>>>>>> main
     }
     else
     {
         $drink = $_GET["drink"];
         if(!in_array($drink, $drinkList))
         {
+<<<<<<< HEAD
             $error["drink"] = "This drink does not exist";
         }
     } // end of drink check
@@ -63,18 +73,37 @@ if($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["meal"]))
         */
     }
 } // end of form check
+=======
+            $error["drink"] = "Cette boisson n'existe pas";
+        }
+    }//fin vérification drink
+    // Si je n'ai aucune erreur
+    if(empty($error))
+    {
+        /* 
+            C'est Ici que l'on pourrait envoyer nos données en BDD
+        */
+    }
+}// fin vérification formulaire
+>>>>>>> main
 
 $title = " GET ";
 require("../ressources/template/_header.php");
 ?>
 
 <form action="01-get.php" method="GET">
+<<<<<<< HEAD
     <input type="text" placeholder="Enter a name" name="username">
     <!-- the span.error will be used to display error messages -->
+=======
+    <input type="text" placeholder="Entrez un nom" name="username">
+    <!-- les span.error serviront à afficher les messages d'erreur. -->
+>>>>>>> main
     <span class="error"><?= $error["username"]??"" ?></span>
     <!-- <span class="error"><?php echo $error["username"]??"" ?></span> -->
     <br>
     <fieldset>
+<<<<<<< HEAD
         <legend>Favorite food</legend>
         <input type="radio" name="food" id="welsh" value="welsh"> 
         <label for="welsh">Welsh (because cheese is life)</label>
@@ -92,13 +121,40 @@ require("../ressources/template/_header.php");
         <option value="jus de tomate">Tomato juice (I'm a vampire)</option>
         <option value="milkshake">Milkshake (preferably fruit)</option>
         <option value="limonade">Lemonade (I need sugar)</option>
+=======
+        <legend>Nourriture favorite</legend>
+        <input type="radio" name="food" id="welsh" value="welsh"> 
+        <label for="welsh">Welsh (car vive le fromage)</label>
+        <br>
+        <input type="radio" name="food" id="cannelloni" value="cannelloni"> 
+        <label for="cannelloni">Cannelloni (car les ravioli c'est surfait)</label>
+        <br>
+        <input type="radio" name="food" id="oyakodon" value="oyakodon"> 
+        <label for="oyakodon">Oyakodon (car j'aime l'humour noir)</label>
+        <span class="error"><?= $error["food"]??"" ?></span>
+    </fieldset>
+    <label for="boisson">Boisson favorite</label>
+    <br>
+    <select name="drink" id="boisson">
+        <option value="jus de tomate">jus de tomate (je suis un vampire)</option>
+        <option value="milkshake">Milkshake (aux fruits de préférence)</option>
+        <option value="limonade">Limonade (J'ai besoin de sucre)</option>
+>>>>>>> main
     </select>
     <span class="error"><?= $error["drink"]??"" ?></span>
     <br>
 
+<<<<<<< HEAD
     <input type="submit" value="Submit" name="meal">
+=======
+    <input type="submit" value="Envoyer" name="meal">
+>>>>>>> main
 </form>
 
 <?php 
 require("../ressources/template/_footer.php");
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> main
