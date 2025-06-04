@@ -40,18 +40,28 @@ if($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["meal"]))
         $food = $_GET["food"];
         if(!in_array($food, $foodList))
         {
+<<<<<<< HEAD
             $error["food"] = "この食事は存在しません";
         }
     } // 食事の確認終了
     if(empty($_GET["drink"]))
     {
         $error["drink"] = "飲み物を選択してください";
+=======
+            $error["food"] = "Ce repas n'existe pas";
+        }
+    }//fin vérification food
+    if(empty($_GET["drink"]))
+    {
+        $error["drink"] = "Veuillez selectionner une boisson";
+>>>>>>> main
     }
     else
     {
         $drink = $_GET["drink"];
         if(!in_array($drink, $drinkList))
         {
+<<<<<<< HEAD
             $error["drink"] = "この飲み物は存在しません";
         }
     } // 飲み物の確認終了
@@ -63,6 +73,19 @@ if($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["meal"]))
         */
     }
 } // フォーム確認終了
+=======
+            $error["drink"] = "Cette boisson n'existe pas";
+        }
+    }//fin vérification drink
+    // Si je n'ai aucune erreur
+    if(empty($error))
+    {
+        /* 
+            C'est Ici que l'on pourrait envoyer nos données en BDD
+        */
+    }
+}// fin vérification formulaire
+>>>>>>> main
 
 $title = " GET ";
 require("../ressources/template/_header.php");
@@ -70,6 +93,7 @@ require("../ressources/template/_header.php");
 
 <form action="01-get.php" method="GET">
     <input type="text" placeholder="Entrez un nom" name="username">
+<<<<<<< HEAD
     <!-- span.errorはエラーメッセージを表示するために使用される。 -->
     <span class="error"><?= $error["username"]??"" ?></span>
     <br>
@@ -91,13 +115,45 @@ require("../ressources/template/_header.php");
         <option value="jus de tomate">トマトジュース（私は吸血鬼）</option>
         <option value="milkshake">ミルクセーキ（フルーツ味が好き）</option>
         <option value="limonade">レモネード（糖分が必要）</option>
+=======
+    <!-- les span.error serviront à afficher les messages d'erreur. -->
+    <span class="error"><?= $error["username"]??"" ?></span>
+    <!-- <span class="error"><?php echo $error["username"]??"" ?></span> -->
+    <br>
+    <fieldset>
+        <legend>Nourriture favorite</legend>
+        <input type="radio" name="food" id="welsh" value="welsh"> 
+        <label for="welsh">Welsh (car vive le fromage)</label>
+        <br>
+        <input type="radio" name="food" id="cannelloni" value="cannelloni"> 
+        <label for="cannelloni">Cannelloni (car les ravioli c'est surfait)</label>
+        <br>
+        <input type="radio" name="food" id="oyakodon" value="oyakodon"> 
+        <label for="oyakodon">Oyakodon (car j'aime l'humour noir)</label>
+        <span class="error"><?= $error["food"]??"" ?></span>
+    </fieldset>
+    <label for="boisson">Boisson favorite</label>
+    <br>
+    <select name="drink" id="boisson">
+        <option value="jus de tomate">jus de tomate (je suis un vampire)</option>
+        <option value="milkshake">Milkshake (aux fruits de préférence)</option>
+        <option value="limonade">Limonade (J'ai besoin de sucre)</option>
+>>>>>>> main
     </select>
     <span class="error"><?= $error["drink"]??"" ?></span>
     <br>
 
+<<<<<<< HEAD
     <input type="submit" value="送信" name="meal">
+=======
+    <input type="submit" value="Envoyer" name="meal">
+>>>>>>> main
 </form>
 
 <?php 
 require("../ressources/template/_footer.php");
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> main

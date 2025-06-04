@@ -50,18 +50,28 @@ if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["meal"]))
         $food = $_POST["food"];
         if(!array_key_exists($food, $foodList))
         {
+<<<<<<< HEAD
             $error["food"] = "この食事は存在しません";
         }
     } // 食事の確認終了
     if(empty($_POST["drink"]))
     {
         $error["drink"] = "飲み物を選択してください";
+=======
+            $error["food"] = "Ce repas n'existe pas";
+        }
+    }//fin vérification food
+    if(empty($_POST["drink"]))
+    {
+        $error["drink"] = "Veuillez selectionner une boisson";
+>>>>>>> main
     }
     else
     {
         $drink = $_POST["drink"];
         if(!array_key_exists($drink, $drinkList))
         {
+<<<<<<< HEAD
             $error["drink"] = "この飲み物は存在しません";
         }
     } // 飲み物の確認終了
@@ -73,6 +83,19 @@ if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["meal"]))
         */
     }
 } // フォーム確認終了
+=======
+            $error["drink"] = "Cette boisson n'existe pas";
+        }
+    }//fin vérification drink
+    // Si je n'ai aucune erreur
+    if(empty($error))
+    {
+        /* 
+            C'est Ici que l'on pourrait envoyer nos données en BDD
+        */
+    }
+}// fin vérification formulaire
+>>>>>>> main
 
 $title = " POST ";
 require("../ressources/template/_header.php");
@@ -86,6 +109,7 @@ require("../ressources/template/_header.php");
         value="<?= $username ?>" 
         class="<?= empty($error["username"])?"":"formError" ?>"
         >
+<<<<<<< HEAD
     <!-- span.errorはエラーメッセージを表示するために使用される。 -->
     <span class="error"><?= $error["username"]??"" ?></span>
     <br>
@@ -94,6 +118,17 @@ require("../ressources/template/_header.php");
         <!-- foodList配列の各要素にループする -->
         <?php foreach($foodList as $key => $value): ?>
             <!-- 配列のキーをidとvalueに設定する -->
+=======
+    <!-- les span.error serviront à afficher les messages d'erreur. -->
+    <span class="error"><?= $error["username"]??"" ?></span>
+    <!-- <span class="error"><?php echo $error["username"]??"" ?></span> -->
+    <br>
+    <fieldset>
+        <legend>Nourriture favorite</legend>
+        <!-- Je boucle sur chaque élément du tableau foodList -->
+        <?php foreach($foodList as $key => $value): ?>
+            <!-- Je place en id et en value la clef du tableau -->
+>>>>>>> main
             <input 
                 type="radio" 
                 name="food" 
@@ -101,18 +136,31 @@ require("../ressources/template/_header.php");
                 value="<?= $key ?>"
                 <?= $food === $key?"checked":"" ?>
                 > 
+<<<<<<< HEAD
                 <!-- 変数$foodがいずれかのinputと一致する場合、"checked"属性を追加する -->
                 <!-- for属性に配列のキー、テキストに配列の値を設定 -->
+=======
+                <!-- Si la variable $food correspond à l'un de mes inputs, alors on lui ajoute l'attribut "checked" -->
+                <!-- Je place en for la clef du tableau et en texte la value du tableau -->
+>>>>>>> main
             <label for="<?= $key ?>"><?= $value ?></label>
             <br>
         <?php endforeach; ?>
         <span class="error"><?= $error["food"]??"" ?></span>
     </fieldset>
+<<<<<<< HEAD
     <label for="boisson">好きな飲み物</label>
     <br>
     <select name="drink" id="boisson">
         <?php foreach($drinkList as $key => $value){ ?>
             <!-- 変数$drinkが選択肢と一致する場合、"selected"属性を追加 -->
+=======
+    <label for="boisson">Boisson favorite</label>
+    <br>
+    <select name="drink" id="boisson">
+        <?php foreach($drinkList as $key => $value){ ?>
+            <!-- Si la variable $drink correspond à l'une des options, alors on lui ajoute l'attribut "selected" -->
+>>>>>>> main
             <option value="<?= $key ?>" <?= $drink === $key?"selected":"" ?>>
                 <?= $value ?>
             </option>
@@ -121,9 +169,17 @@ require("../ressources/template/_header.php");
     <span class="error"><?= $error["drink"]??"" ?></span>
     <br>
 
+<<<<<<< HEAD
     <input type="submit" value="送信" name="meal">
+=======
+    <input type="submit" value="Envoyer" name="meal">
+>>>>>>> main
 </form>
 
 <?php 
 require("../ressources/template/_footer.php");
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> main
