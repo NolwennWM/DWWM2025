@@ -53,7 +53,7 @@ require "./ressources/template/_header.php";
                 <li>
                     <a href="./02-form/02-post.php">POST</a>
                 </li>
-                <!-- <li>
+                <li>
                     <a href="./02-form/03-file.php">FILE</a>
                 </li>
                 <li>
@@ -67,7 +67,7 @@ require "./ressources/template/_header.php";
                 </li>
                 <li>
                     <a href="./02-form/07-mail.php">Mailer</a>
-                </li> -->
+                </li>
             </ol>
         </li> 
         <!-- <li>
