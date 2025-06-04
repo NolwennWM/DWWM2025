@@ -4,26 +4,28 @@ if(session_status() !== PHP_SESSION_ACTIVE)
     session_start();
 }
 
-// Si l'utilisateur n'est pas connecté.
+// ユーザーがログインしていない場合
 if(!isset($_SESSION["logged"]) || $_SESSION["logged"] !== true)
 {
-    // Alors je le redirige ailleurs :
+    // 別のページにリダイレクトします
     header("Location: ./04-connexion.php");
     exit;
 }
 
 /* 
-    Pour déconnecter l'utilisateur.
-    Il me suffit de détruire les informations concernant la connexion dans la session.
+    ユーザーをログアウトさせるには、
+    セッションからログイン関連の情報を削除します。
         unset($_SESSION["logged"]);
         unset($_SESSION["username"]);
         unset($_SESSION["expire"]);
-    Ou alors si je n'ai rien d'autre de sauvegardé en session, détruire la session en entier.
+    または、セッションに他の情報がない場合は
+    セッション全体を破棄しても良いです。
 */
 unset($_SESSION);
 session_destroy();
 setcookie("PHPSESSID", "", time()-3600);
-// Puis une fois déconnecté, on redirige l'utilisateur ailleurs :
+
+// ログアウト後は別のページにリダイレクトします
 header("Location: ./04-connexion.php");
 exit;
 ?>

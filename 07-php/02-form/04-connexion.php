@@ -2,13 +2,13 @@
 if(session_status() !== PHP_SESSION_ACTIVE)
 {
     session_start();
-    // si je n'indique pas de durée de vie, l'utilisateur sera déconnecté en fermant son navigateur
+    // セッションの有効期限を指定しなければ、ブラウザを閉じた時点でログアウトします。
 }
 
-// Si l'utilisateur est déjà connecté.
+// もしユーザーが既にログインしている場合
 if(isset($_SESSION["logged"]) && $_SESSION["logged"] === true)
 {
-    // Alors je le redirige ailleurs :
+    // 別のページにリダイレクトします
     header("Location: /");
     exit;
 }
@@ -20,103 +20,96 @@ if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['login']))
 {
     if(empty($_POST["email"]))
     {
-        $error["email"] = "Veuillez entrer un email";
+        $error["email"] = "メールアドレスを入力してください";
     }
     else
     {
         $email = trim($_POST["email"]);
-    }// fin vérification email
+    } // メールアドレスのチェック終了
 
     if(empty($_POST["password"]))
     {
-        $error["password"] = "Veuillez entrer un mot de passe";
+        $error["password"] = "パスワードを入力してください";
     }
     else
     {
         $pass = trim($_POST["password"]);
-    }//Fin vérification password
+    } // パスワードのチェック終了
 
     if(empty($error))
     {
         /* 
-            Normalement c'est ici qu'on devrait aller chercher les données en BDD.
-            Mais pour l'instant on va aller les chercher dans un fichier json.
+            通常はここでデータベースからユーザーデータを取得しますが、
+            今回はJSONファイルから取得しています。
 
-            file_get_contents() permet de récupérer les données dans un fichier.
+            file_get_contents() はファイルからデータを取得する関数です。
         */
         $users = file_get_contents("../ressources/users.json");
         /* 
-            json_decode permet de traduire un string au format json, 
-            en données lisible par PHP.
-            Par défaut, les objets json seront traduit en objet PHP.
-            Mais si on indique au second paramètre un boolean à true,
-            les objets json seront traduit en tableau associatif.
+            json_decode はJSON形式の文字列をPHPで扱えるデータに変換します。
+            デフォルトではJSONオブジェクトはPHPオブジェクトに変換されますが、
+            第二引数に true を渡すと連想配列として扱えます。
         */
         $users = json_decode($users, true);
         // var_dump($users);
 
-        // Je vérifie si on a un utilisateur avec cet email :
-        $user = $users[$email]??false;
+        // そのメールアドレスのユーザーがいるかチェック
+        $user = $users[$email] ?? false;
 
-        // Si un utilisateur est trouvé alors :
+        // ユーザーが見つかった場合
         if($user)
         {
             /* 
-                Les mots de passe en BDD (et dans ce json) doivent être haché.
-                le hache étant différent à chaque fois, on ne peut pas simplement comparer le mot de passe avec un "=="
-                On utilisera pour cela, la fonction password_verify()
-                    en premier on indique le mot de passe du formulaire non haché.
-                    en second le hache qui vient de la bdd.
+                データベースやJSONに保存されたパスワードはハッシュ化されています。
+                ハッシュは毎回違うため、単純な「==」では比較できません。
+                そのため password_verify() を使います。
+                第一引数にフォームからの平文パスワード、
+                第二引数に保存されたハッシュを渡します。
             */
             if(password_verify($pass, $user["password"]))
             {
                 /* 
-                    On a le bon email et le bon mot de passe.
-                    L'utilisateur est donc connecté.
-                    Pour garder cette information de page en page, 
-                    Je vais l'indiquer dans la session, par exemple avec un $_SESSION["logged"] = true;
-                    ou $_SESSION["user"] = ["login"=>true];
+                    メールアドレスとパスワードが正しいのでユーザーはログイン状態になります。
+                    セッションを使ってログイン状態をページ間で保持します。
                 */
                 $_SESSION["logged"] = true;
                 /* 
-                    On pourra aussi sauvegarder les informations que l'on veut réutiliser sur plusieurs pages.
-                    Par exemple si le nom ou l'avatar de l'utilisateur doit apparaître sur chaque page
+                    またユーザー名やアバターなど
+                    複数ページで使いたい情報も保存できます。
                 */
                 $_SESSION["username"] = $user["username"];
                 /* 
-                    Ou d'autres choses si besoin que l'on pourra vérifier à chaque page,
-                    comme un temps d'expiration si on veut que la connexion soit limité dans le temps
+                    セッションの有効期限などもここで設定可能です。
                 */
                 $_SESSION["expire"] = time()+3600;
-                // Une fois connecté, l'utilisateur n'a plus rien à faire ici, on peut le rediriger vers une autre page (profil, accueil...)
+                // ログイン後は別のページにリダイレクトします（例：プロフィールやトップページ）
                 header("Location: /");
                 exit;
-            }else
+            } else
             {
-                $error["login"] = "Email ou Mot de passe incorrecte (password)";
-            }// fin vérification connexion password
+                $error["login"] = "メールアドレスまたはパスワードが間違っています（パスワード）";
+            } // パスワードチェック終了
         }
         else
         {
-            $error["login"] = "Email ou Mot de passe incorrecte (email)";
-        }// fin vérification connexion email
+            $error["login"] = "メールアドレスまたはパスワードが間違っています（メールアドレス）";
+        } // メールアドレスチェック終了
     }
 }
 
-
-$title = " Connexion ";
+$title = "ログイン";
 require("../ressources/template/_header.php");
 ?>
     <form action="04-connexion.php" method="post">
-        <label for="email">Email</label>
+        <label for="email">メールアドレス</label>
         <input type="email" name="email" id="email">
         <span class="error"><?= $error["email"]??"" ?></span>
         <br>
-        <label for="password">Mot de Passe</label>
+        <label for="password">パスワード</label>
         <input type="password" name="password" id="password">
         <span class="error"><?= $error["password"]??"" ?></span>
         <br>
-        <button type="submit" name="login">Connexion</button>
+        <button type="submit" name="login">ログイン</button>
         <span class="error"><?= $error["login"]??"" ?></span>
     </form>
 
