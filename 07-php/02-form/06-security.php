@@ -4,113 +4,117 @@ require "../ressources/service/_csrf.php";
 $title = "Security";
 require "../ressources/template/_header.php";
 /* 
-    En tant que développeur web, nous devons protéger nos sites des différentes attaques classique que sont :
-        - XSS (insertion de sript js ou de html et css directement dans la page)
-        - CSRF (Envoi d'une requête depuis un formulaire tier vers un formulaire de notre site)
-        - Brute Force (Multiple Tentative d'identifiant sur un formulaire de connexion)
-        - Injection SQL (envoi de requête SQL par un utilisateur)
-        - spam bot (multiple mail sur un formulaire de contact ou inscription sur un site)
+    Web開発者として、私たちは以下のような一般的な攻撃からサイトを保護する必要があります：
+        - XSS（JSスクリプトやHTML、CSSをページに直接挿入する攻撃）
+        - CSRF（第三者のフォームから自サイトのフォームへリクエストを送る攻撃）
+        - ブルートフォース（複数のログイン試行を繰り返す攻撃）
+        - SQLインジェクション（ユーザー入力を通じてSQLクエリを送信する攻撃）
+        - スパムボット（連絡フォームや登録フォームから大量のメールを送信する攻撃）
 
     ------------------ XSS ------------------
-    XSS (Cross Site Scripting)
-    Si on ne protège pas les envois utilisateur contre cela. Ils peuvent taper dans n'importe quel formulaire du HTML, CSS ou JS.
-    Pour s'en protéger, on filtrera les données ayant pour but d'être affiché, soit avant la mise en BDD soit au moment de l'affichage avec :
+    XSS（クロスサイトスクリプティング）
+    もしユーザー入力を保護しなければ、任意のHTML、CSS、JSをフォームに注入されてしまいます。
+    自分たちを守るために、表示用のデータをデータベース保存前または表示時に以下でフィルタリングします：
         - htmlspecialchars()
-        ou
+        または
         - htmlentities()
 */
 $XSS_attack = "<script>document.querySelector('header').style.backgroundColor = 'chartreuse';</script>";
-// Pas sécurisé :
+// セキュリティ上安全でない例：
 echo $XSS_attack;
-// Sécurisé :
+// セキュリティ上安全な例：
 echo htmlspecialchars($XSS_attack), "<br>";
 echo htmlentities($XSS_attack), "<br>";
-// ces fonctions remplacent certains character comme "<" par leur code html "&gt;"
+// これらの関数は "<" のような特定の文字をHTMLエンティティ "&gt;" に置き換えます
 
 /* 
     ----------------------------CSRF---------------------------
-    le Cross Site Request Forgery.
-    Le principe est de construire une requête sur un site ou formulaire quelconque.
-    Mais au lieu de rester sur ce site, on envoi la requête vers un autre site.
-    Par exemple un petit sondage sur votre fruit favoris, qui cache des champs invisible et qui lors de la validation, va vous envoyer vers un site que vous gérer pour valider un formulaire accessible uniquement à vous.
+    クロスサイトリクエストフォージェリ（CSRF）
+    他のサイトやフォームでリクエストを作成します。
+    しかし、そのサイトに留まらずリクエストを別のサイトへ送信します。
+    例えば、「あなたの好きな果物」の簡単なアンケートフォームが隠れた不可視のフィールドを持ち、
+    送信時に、あなたがのみアクセス可能なフォームへリクエストを送るようにします。
 
-    Pour s'en protéger, on va générer un token aléatoire (suite de chiffre et de lettre) qui sera sauvegardé en session, et affiché dans un champ de type "hidden" dans le formulaire.
-    Lors de l'envoi du formulaire, on vérifiera si ce token est le même que celui en session.
-    Un formulaire tier n'aura pas le jeton.
-    (voir fichier ressources/service/_csrf.php)
+    これを防ぐため、セッションに保存したランダムなトークン（英数字の並び）を生成し、
+    フォームの隠しフィールドに含めます。
+    送信時に、このトークンがセッションのものと一致するか検証します。
+    第三者のフォームはトークンを持っていません。
+    （_csrf.php ファイルを参照）
 
-    -------------------- Brute Force --------------
-    Le brute force est simple le fait d'essayer tous les identifiants (email / password) possible jusqu'à en trouver un bon.
-    à la main c'est très long, mais avec un bot on peut faire plusieurs milliers d'essai à la seconde.
-    Plusieurs solutions possible pour s'en protéger :
-        - Forcer l'utilisateur a mettre un mot de passe complexe.(Au moins 8 ou 12 charactères, minuscule, majuscule, chiffre, speciaux)
-        - Bloquer l'accès au compte après un certain nombre d'échec (soit pour une durée limité, soit jusqu'au clique sur un email envoyé)
-        - Forcer un temps d'attente entre chaque essai (ne serait-ce que 1 ou 2 secondes)
+    -------------------- ブルートフォース --------------
+    ブルートフォース攻撃とは、全ての可能な識別子（メールアドレス/パスワード）を
+    試して有効なものを見つけることです。
+    手動では非常に遅いですが、ボットは1秒間に数千回試行できます。
+    防ぐための可能な対策：
+        - 複雑なパスワードの強制（最低8〜12文字、小文字・大文字・数字・特殊文字を含む）
+        - 一定回数の失敗後にアカウントアクセスをブロック（一定期間かメール確認まで）
+        - 試行間に待機時間を設ける（1〜2秒でも有効）
 
-    -------------------------- Injection SQL ---------------------
-    Cela consiste à envoyer du SQL dans un formulaire, et que celui ci, soit executer. 
-    Que ce soit pour récupérer des données, supprimer des éléments ou en modifier.
+    -------------------------- SQLインジェクション ---------------------
+    これはフォームを通じてSQLコマンドを送り実行させる攻撃です。
+    データの取得、削除、変更などに利用されます。
 
-    Pour s'en protéger, on ne va jamais insérer de données venant d'un utilisateur, directement dans la requête :
-    $message_Utilisateur = "(DELETE FROM users;)";
-    ! NE PAS FAIRE :
-    $sql = "INSERT INTO messages (content) VALUES ($message_Utilisateur)";
-    ! On se retrouve avec la requête suivante :
+    防ぐために、ユーザーデータを直接SQLクエリに埋め込まないでください：
+    $user_message = "(DELETE FROM users;)";
+    ! やってはいけない例：
+    $sql = "INSERT INTO messages (content) VALUES ($user_message)";
+    ! これにより以下のようなクエリになります：
     "INSERT INTO messages (content) VALUES ((DELETE FROM users;))";
 
-    ? La bonne solution est de faire une requête préparé :
-    On verra en détail son utilisation plus tard mais pour faire simple,
-    On va utiliser une première fonction qui aura pour rôle de lire le SQL sans les informations de l'utilisateur :
+    ? 正しい対処法はプリペアドステートメントを使うことです：
+    詳細は後で説明しますが、簡単に言うと、
+    ユーザーデータ無しでSQLを読むための関数を使い：
         prepare("INSERT INTO messages (content) VALUES (?)")
-    Puis on utilisera une seconde fonction pour envoyer les données :
-        values($message_Utilisateur)
-    Peu importe ce que l'utilisateur a mit, notre bdd le traitera que comme du texte.
+    次にデータを送る関数を使います：
+        values($user_message)
+    ユーザーの入力が何であっても、データベースはそれをテキストとして扱います。
 
-    ------------------- spam bot -------------------------
-    Les formulaires accessible sans connexion (formulaire de contact, d'inscription, plus rarement mais parfois sur celui de connexion aussi) sont sensible aux bots.
-    Sans protection, vous pourriez avoir par exemple dans votre boîte mail des centaines de mail venant de votre formulaire de contact.
+    ------------------- スパムボット -------------------------
+    ログイン不要でアクセス可能なフォーム（お問い合わせフォーム、登録フォーム、稀にログインフォーム）はボットに狙われやすいです。
+    保護が無いと、何百通ものメールが送信される可能性があります。
 
-    - Pour s'en protéger, le plus classique est d'utiliser un CAPTCHA (Completely Automated Public Turing test to tell Computers and Humans Apart)
-    - On pourra aussi utiliser un Honey Pot, un pot de miel est une faille volontaire qui si utilisé prouvera que c'est un bot.
-    Sur un formulaire, on pourra par exemple créer un champ invisible (via CSS et non en type hidden) qui ne sera donc pas rempli par les humain, mais que les bots eux pourrons remplir.
+    - 最も一般的な保護はCAPTCHA（完全自動化された公開チューリングテスト、コンピュータと人間を区別するテスト）を使うことです
+    - もう一つはハニーポット（罠）を使うことです。隠しフィールド（CSSで不可視だがinput type=hiddenではない）を設けて、
+      人間は記入しないがボットは記入してしまうため、それで判別できます。
 
-    --------------------------- Hachage -------------------
+    --------------------------- ハッシュ化 -------------------
 
-    Pas une faille de sécurité mais important, tout mot de passe sauvegardé en BDD se doit d'être haché.
-    Un administrateur ou un hackeur ayant accès à la BDD, ne doit pas connaître instantanément les mots de passe utilisateur.
-    On parle de Hasher un mot de passe et non de le crypter, car un texte crypté peut être décripté, alors qu'un hachage ne peut être déhaché.
-    ? Bonus :
-        - Attention d'avoir vos formulaires contenant des informations privée en POST.
-        - Attention que toute vos pages devant être accessible après connexion, ne sont pas accessible hors connexion.
+    セキュリティ上の欠陥ではありませんが重要な点：データベースに保存するパスワードはすべてハッシュ化しなければなりません。
+    管理者やハッカーがDBにアクセスしてもすぐにパスワードがわかってはいけません。
+    「暗号化」ではなく「ハッシュ化」と呼ぶのは、暗号化テキストは復号できるが、
+    ハッシュは逆算できないためです。
+    ? ボーナス：
+        - 個人情報を含むフォームはPOSTを使うことを確実にする
+        - ログイン必須のページはログイン無しでアクセス不可にする
 
-    Petit exemple de formulaire sécurisé :
+    セキュアなフォームの簡単な例：
 */
 if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['password']))
 {
     if(!isCSRFValid())
     {
-        $error = "La méthode utilisée n'est pas permise !";
+        $error = "使用されたメソッドは許可されていません！";
     }
     if(!isset($_POST["captcha"], $_SESSION['captchaStr']) || $_POST["captcha"] !== $_SESSION['captchaStr'])
     {
-        $error = "Captcha Incorrecte!";
+        $error = "キャプチャが正しくありません！";
     }
     if(empty($_POST["password"]))
     {
-        $error = "Veuillez indiquer un mot de passe";
+        $error = "パスワードを入力してください";
     }
     else
     {
         $password = trim($_POST["password"]);
         /* 
-            password_hash s'occupera de hacher le mot de passe donnée en premier paramètre,
-            selon l'algorithme indiqué en second paramètre.
-            Cet algorithme est représenté par une constante PHP au choix entre :
+            password_hashは第一引数のパスワードをハッシュ化し、
+            第二引数で指定されたアルゴリズムを使用します。
+            このアルゴリズムはPHPの定数で表され、以下から選びます：
                 PASSWORD_BCRYPT
                 PASSWORD_ARGON2I
                 PASSWORD_ARGON2ID
-                (PASSWORD_DEFAULT laisse PHP choisir pour nous, généralement le plus sécurisé)
-            Il peut aussi accueillir un troisième paramètre optionnel pour modifier les paramètres des algorithmes.
+                （PASSWORD_DEFAULTはPHPが最も安全なものを選びます）
+            第三引数はオプションでアルゴリズムの設定を変更できます。
         */
         $password = password_hash($password, PASSWORD_DEFAULT);
     }
@@ -118,30 +122,30 @@ if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['password']))
 ?>
 <hr>
 <form action="06-security.php" method="POST">
-    <label for="password">hacher un mot de passe :</label>
+    <label for="password">パスワードをハッシュ化する：</label>
     <input type="password" name="password" id="password">
-    <!-- ajout du captcha -->
+    <!-- キャプチャ追加 -->
     <div>
-        <label for="captcha">Veuillez recopier le texte suivant :</label>
+        <label for="captcha">以下の文字を再入力してください：</label>
         <br>
         <img src="../ressources/service/_captcha.php" alt="captcha">
         <br>
         <input type="text" name="captcha" id="captcha" pattern="[A-Z0-9]{6}">
     </div>
-    <!-- fin captcha -->
+    <!-- キャプチャ終了 -->
     <!-- CSRF -->
         <?php setCSRF(); ?>
-    <!-- fin CSRF -->
+    <!-- CSRF終了 -->
     <br>
-    <input type="submit" value="Envoyer">
+    <input type="submit" value="送信">
     <span class="error"><?= $error??"" ?></span>
 </form>
 
 <?php 
 if(empty($error) && !empty($password))
 {
-    // Ici c'est un exemple mais n'affichez jamais le mot de passe de quelqu'un
-    echo "<p>Votre mot de passe haché est : $password</p>";
+    // これは例ですが、誰かのパスワードをこのように表示してはいけません
+    echo "<p>あなたのハッシュ化されたパスワードは : $password</p>";
 }
 require "../ressources/template/_footer.php";
 ?>
