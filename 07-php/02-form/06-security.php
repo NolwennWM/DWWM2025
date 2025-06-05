@@ -85,12 +85,53 @@ echo htmlentities($XSS_attack), "<br>";
 
     Petit exemple de formulaire sécurisé :
 */
+if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['password']))
+{
+    if(!isCSRFValid())
+    {
+        $error = "La méthode utilisée n'est pas permise !";
+    }
+    if(!isset($_POST["captcha"], $_SESSION['captchaStr']) || $_POST["captcha"] !== $_SESSION['captchaStr'])
+    {
+        $error = "Captcha Incorrecte!";
+    }
+    if(empty($_POST["password"]))
+    {
+        $error = "Veuillez indiquer un mot de passe";
+    }
+    else
+    {
+        $password = trim($_POST["password"]);
+        /* 
+            password_hash s'occupera de hacher le mot de passe donnée en premier paramètre,
+            selon l'algorithme indiqué en second paramètre.
+            Cet algorithme est représenté par une constante PHP au choix entre :
+                PASSWORD_BCRYPT
+                PASSWORD_ARGON2I
+                PASSWORD_ARGON2ID
+                (PASSWORD_DEFAULT laisse PHP choisir pour nous, généralement le plus sécurisé)
+            Il peut aussi accueillir un troisième paramètre optionnel pour modifier les paramètres des algorithmes.
+        */
+        $password = password_hash($password, PASSWORD_DEFAULT);
+    }
+}
 ?>
 <hr>
 <form action="06-security.php" method="POST">
     <label for="password">hacher un mot de passe :</label>
     <input type="password" name="password" id="password">
-
+    <!-- ajout du captcha -->
+    <div>
+        <label for="captcha">Veuillez recopier le texte suivant :</label>
+        <br>
+        <img src="../ressources/service/_captcha.php" alt="captcha">
+        <br>
+        <input type="text" name="captcha" id="captcha" pattern="[A-Z0-9]{6}">
+    </div>
+    <!-- fin captcha -->
+    <!-- CSRF -->
+        <?php setCSRF(); ?>
+    <!-- fin CSRF -->
     <br>
     <input type="submit" value="Envoyer">
     <span class="error"><?= $error??"" ?></span>
