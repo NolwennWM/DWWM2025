@@ -4,113 +4,113 @@ require "../ressources/service/_csrf.php";
 $title = "Security";
 require "../ressources/template/_header.php";
 /* 
-    En tant que développeur web, nous devons protéger nos sites des différentes attaques classique que sont :
-        - XSS (insertion de sript js ou de html et css directement dans la page)
-        - CSRF (Envoi d'une requête depuis un formulaire tier vers un formulaire de notre site)
-        - Brute Force (Multiple Tentative d'identifiant sur un formulaire de connexion)
-        - Injection SQL (envoi de requête SQL par un utilisateur)
-        - spam bot (multiple mail sur un formulaire de contact ou inscription sur un site)
+    As web developers, we need to protect our sites from common attacks such as:
+        - XSS (inserting JS scripts or HTML and CSS directly into the page)
+        - CSRF (sending a request from a third-party form to a form on our site)
+        - Brute Force (multiple login attempts with different credentials)
+        - SQL Injection (sending SQL queries via user input)
+        - spam bots (multiple emails via contact or registration forms)
 
     ------------------ XSS ------------------
     XSS (Cross Site Scripting)
-    Si on ne protège pas les envois utilisateur contre cela. Ils peuvent taper dans n'importe quel formulaire du HTML, CSS ou JS.
-    Pour s'en protéger, on filtrera les données ayant pour but d'être affiché, soit avant la mise en BDD soit au moment de l'affichage avec :
+    If we do not protect user input from this, they can inject any HTML, CSS, or JS into any form.
+    To protect ourselves, we filter data meant for display, either before storing in the database or at display time using:
         - htmlspecialchars()
-        ou
+        or
         - htmlentities()
 */
 $XSS_attack = "<script>document.querySelector('header').style.backgroundColor = 'chartreuse';</script>";
-// Pas sécurisé :
+// Not secure:
 echo $XSS_attack;
-// Sécurisé :
+// Secure:
 echo htmlspecialchars($XSS_attack), "<br>";
 echo htmlentities($XSS_attack), "<br>";
-// ces fonctions remplacent certains character comme "<" par leur code html "&gt;"
+// these functions replace certain characters like "<" with their HTML code "&gt;"
 
 /* 
     ----------------------------CSRF---------------------------
-    le Cross Site Request Forgery.
-    Le principe est de construire une requête sur un site ou formulaire quelconque.
-    Mais au lieu de rester sur ce site, on envoi la requête vers un autre site.
-    Par exemple un petit sondage sur votre fruit favoris, qui cache des champs invisible et qui lors de la validation, va vous envoyer vers un site que vous gérer pour valider un formulaire accessible uniquement à vous.
+    Cross Site Request Forgery.
+    The principle is to build a request on any site or form.
+    But instead of staying on that site, the request is sent to another site.
+    For example, a small poll about your favorite fruit which hides invisible fields and when submitted, sends the request to a site you control to submit a form accessible only to you.
 
-    Pour s'en protéger, on va générer un token aléatoire (suite de chiffre et de lettre) qui sera sauvegardé en session, et affiché dans un champ de type "hidden" dans le formulaire.
-    Lors de l'envoi du formulaire, on vérifiera si ce token est le même que celui en session.
-    Un formulaire tier n'aura pas le jeton.
-    (voir fichier ressources/service/_csrf.php)
+    To protect against this, we generate a random token (a sequence of letters and numbers) saved in the session and included in a hidden field in the form.
+    When submitting the form, we check if this token matches the one stored in the session.
+    A third-party form won't have the token.
+    (see file ressources/service/_csrf.php)
 
     -------------------- Brute Force --------------
-    Le brute force est simple le fait d'essayer tous les identifiants (email / password) possible jusqu'à en trouver un bon.
-    à la main c'est très long, mais avec un bot on peut faire plusieurs milliers d'essai à la seconde.
-    Plusieurs solutions possible pour s'en protéger :
-        - Forcer l'utilisateur a mettre un mot de passe complexe.(Au moins 8 ou 12 charactères, minuscule, majuscule, chiffre, speciaux)
-        - Bloquer l'accès au compte après un certain nombre d'échec (soit pour une durée limité, soit jusqu'au clique sur un email envoyé)
-        - Forcer un temps d'attente entre chaque essai (ne serait-ce que 1 ou 2 secondes)
+    Brute force is simply trying all possible identifiers (email/password) until finding a valid one.
+    Doing it manually is very slow, but a bot can attempt thousands of tries per second.
+    Possible solutions to protect against it:
+        - Force users to use complex passwords (at least 8 or 12 characters, lowercase, uppercase, numbers, special chars)
+        - Block account access after a certain number of failures (either temporarily or until email confirmation)
+        - Force a wait time between attempts (even 1 or 2 seconds)
 
-    -------------------------- Injection SQL ---------------------
-    Cela consiste à envoyer du SQL dans un formulaire, et que celui ci, soit executer. 
-    Que ce soit pour récupérer des données, supprimer des éléments ou en modifier.
+    -------------------------- SQL Injection ---------------------
+    This consists of sending SQL commands through a form and having them executed.
+    Whether to retrieve data, delete entries, or modify them.
 
-    Pour s'en protéger, on ne va jamais insérer de données venant d'un utilisateur, directement dans la requête :
-    $message_Utilisateur = "(DELETE FROM users;)";
-    ! NE PAS FAIRE :
-    $sql = "INSERT INTO messages (content) VALUES ($message_Utilisateur)";
-    ! On se retrouve avec la requête suivante :
+    To protect against this, never insert user data directly into SQL queries:
+    $user_message = "(DELETE FROM users;)";
+    ! DON'T DO:
+    $sql = "INSERT INTO messages (content) VALUES ($user_message)";
+    ! This results in the query:
     "INSERT INTO messages (content) VALUES ((DELETE FROM users;))";
 
-    ? La bonne solution est de faire une requête préparé :
-    On verra en détail son utilisation plus tard mais pour faire simple,
-    On va utiliser une première fonction qui aura pour rôle de lire le SQL sans les informations de l'utilisateur :
+    ? The right solution is to use prepared statements:
+    We'll see detailed usage later but simply put,
+    Use a first function to read the SQL without user data:
         prepare("INSERT INTO messages (content) VALUES (?)")
-    Puis on utilisera une seconde fonction pour envoyer les données :
-        values($message_Utilisateur)
-    Peu importe ce que l'utilisateur a mit, notre bdd le traitera que comme du texte.
+    Then use a second function to send the data:
+        values($user_message)
+    No matter what the user input is, the database treats it as text.
 
     ------------------- spam bot -------------------------
-    Les formulaires accessible sans connexion (formulaire de contact, d'inscription, plus rarement mais parfois sur celui de connexion aussi) sont sensible aux bots.
-    Sans protection, vous pourriez avoir par exemple dans votre boîte mail des centaines de mail venant de votre formulaire de contact.
+    Forms accessible without login (contact forms, registration, less often login forms) are vulnerable to bots.
+    Without protection, you might receive hundreds of emails from your contact form.
 
-    - Pour s'en protéger, le plus classique est d'utiliser un CAPTCHA (Completely Automated Public Turing test to tell Computers and Humans Apart)
-    - On pourra aussi utiliser un Honey Pot, un pot de miel est une faille volontaire qui si utilisé prouvera que c'est un bot.
-    Sur un formulaire, on pourra par exemple créer un champ invisible (via CSS et non en type hidden) qui ne sera donc pas rempli par les humain, mais que les bots eux pourrons remplir.
+    - The most classic protection is to use a CAPTCHA (Completely Automated Public Turing test to tell Computers and Humans Apart)
+    - Another is to use a Honey Pot, a deliberate trap which if filled proves it's a bot.
+    For example, adding an invisible field (via CSS but not hidden input type) that humans won't fill but bots might.
 
-    --------------------------- Hachage -------------------
+    --------------------------- Hashing -------------------
 
-    Pas une faille de sécurité mais important, tout mot de passe sauvegardé en BDD se doit d'être haché.
-    Un administrateur ou un hackeur ayant accès à la BDD, ne doit pas connaître instantanément les mots de passe utilisateur.
-    On parle de Hasher un mot de passe et non de le crypter, car un texte crypté peut être décripté, alors qu'un hachage ne peut être déhaché.
-    ? Bonus :
-        - Attention d'avoir vos formulaires contenant des informations privée en POST.
-        - Attention que toute vos pages devant être accessible après connexion, ne sont pas accessible hors connexion.
+    Not a security flaw but important: all passwords stored in the database must be hashed.
+    An admin or hacker with DB access should not instantly know user passwords.
+    We say hashing passwords, not encrypting, because encrypted text can be decrypted, while hashes cannot be reversed.
+    ? Bonus:
+        - Make sure forms containing private info use POST.
+        - Make sure pages that require login are not accessible without login.
 
-    Petit exemple de formulaire sécurisé :
+    Small example of a secure form:
 */
 if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['password']))
 {
     if(!isCSRFValid())
     {
-        $error = "La méthode utilisée n'est pas permise !";
+        $error = "The method used is not allowed!";
     }
     if(!isset($_POST["captcha"], $_SESSION['captchaStr']) || $_POST["captcha"] !== $_SESSION['captchaStr'])
     {
-        $error = "Captcha Incorrecte!";
+        $error = "Incorrect Captcha!";
     }
     if(empty($_POST["password"]))
     {
-        $error = "Veuillez indiquer un mot de passe";
+        $error = "Please enter a password";
     }
     else
     {
         $password = trim($_POST["password"]);
         /* 
-            password_hash s'occupera de hacher le mot de passe donnée en premier paramètre,
-            selon l'algorithme indiqué en second paramètre.
-            Cet algorithme est représenté par une constante PHP au choix entre :
+            password_hash will hash the password given in the first parameter,
+            using the algorithm specified in the second parameter.
+            This algorithm is represented by a PHP constant, chosen among:
                 PASSWORD_BCRYPT
                 PASSWORD_ARGON2I
                 PASSWORD_ARGON2ID
-                (PASSWORD_DEFAULT laisse PHP choisir pour nous, généralement le plus sécurisé)
-            Il peut aussi accueillir un troisième paramètre optionnel pour modifier les paramètres des algorithmes.
+                (PASSWORD_DEFAULT lets PHP choose the most secure one)
+            An optional third parameter can modify algorithm options.
         */
         $password = password_hash($password, PASSWORD_DEFAULT);
     }
@@ -118,30 +118,30 @@ if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['password']))
 ?>
 <hr>
 <form action="06-security.php" method="POST">
-    <label for="password">hacher un mot de passe :</label>
+    <label for="password">Hash a password:</label>
     <input type="password" name="password" id="password">
-    <!-- ajout du captcha -->
+    <!-- captcha added -->
     <div>
-        <label for="captcha">Veuillez recopier le texte suivant :</label>
+        <label for="captcha">Please retype the following text:</label>
         <br>
         <img src="../ressources/service/_captcha.php" alt="captcha">
         <br>
         <input type="text" name="captcha" id="captcha" pattern="[A-Z0-9]{6}">
     </div>
-    <!-- fin captcha -->
+    <!-- end captcha -->
     <!-- CSRF -->
         <?php setCSRF(); ?>
-    <!-- fin CSRF -->
+    <!-- end CSRF -->
     <br>
-    <input type="submit" value="Envoyer">
+    <input type="submit" value="Send">
     <span class="error"><?= $error??"" ?></span>
 </form>
 
 <?php 
 if(empty($error) && !empty($password))
 {
-    // Ici c'est un exemple mais n'affichez jamais le mot de passe de quelqu'un
-    echo "<p>Votre mot de passe haché est : $password</p>";
+    // This is an example but never display anyone's password like this
+    echo "<p>Your hashed password is : $password</p>";
 }
 require "../ressources/template/_footer.php";
 ?>
