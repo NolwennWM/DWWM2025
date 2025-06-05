@@ -2,50 +2,50 @@
 if(session_status() === PHP_SESSION_NONE)
 session_start();
 /**
- * Paramètre un token en session et ajoute un input:hidden contenant le token.
+ * Sets a token in the session and adds a hidden input containing the token.
  * 
- * Optionnellement ajoute un temps de vie au jeton.
+ * Optionally adds an expiration time to the token.
  *
  * @param integer $time
  * @return void
  */
 function setCSRF(int $time = 0): void
 {
-    // si $time est plus grand que 0 on ajoute en session un temps avant expiration
+    // if $time is greater than 0, add an expiration time in the session
     if($time>0)
         $_SESSION["tokenExpire"] = time() + 60*$time; 
     /* 
-        random_bytes va retourner un nombre d'octet aléatoire d'une longueur donnée en paramètre.
-        bin2hex va transformer ces octets en hexadecimal.
-        On range le tout en session.
+        random_bytes returns a random number of bytes of the length given in parameter.
+        bin2hex converts those bytes into hexadecimal.
+        We store everything in the session.
     */
     $_SESSION["token"] = bin2hex(random_bytes(50));
-    // On affiche un input hidden contenant notre jeton.
+    // Output a hidden input containing our token.
     echo '<input type="hidden" name="token" value="'.$_SESSION["token"].'">';
 }
 /**
- * Vérifie si le jeton est toujours valide.
+ * Checks if the token is still valid.
  *
  * @return boolean
  */
 function isCSRFValid(): bool
 {
-    // Si le jeton n'a pas de date d'expiration ou si il est toujours valide.
+    // If the token has no expiration date or is still valid.
     if(!isset($_SESSION["tokenExpire"]) || $_SESSION["tokenExpire"] > time()){
-        // Si le jeton existe et est bien le même que celui donné par le formulaire.
+        // If the token exists and matches the one submitted in the form.
         if( isset($_SESSION['token'],$_POST['token']) && $_SESSION['token'] == $_POST['token'])
         return true;
     }
-    // Sinon on indique un code 405 et retourne false.
+    // Otherwise send a 405 Method Not Allowed header and return false.
     if(isset($_SERVER['SERVER_PROTOCOL']))
         header($_SERVER['SERVER_PROTOCOL'] . ' 405 Method Not Allowed');
     return false;
 }
 /* 
-    Profitons d'avoir un fichier qui va être importé 
-    dans tous nos formulaire pour y placer notre 
-    fonction de nettoyage des entrés utilisateur
-    que l'on va réutiliser à chaque page.
+    Since this file will be included 
+    in all our forms, let's put here our
+    function to sanitize user input
+    that we will reuse on every page.
 */
 /**
  * Sanitize a string
