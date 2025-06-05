@@ -13,7 +13,7 @@ function setCSRF(int $time = 0): void
 {
     // si $time est plus grand que 0 on ajoute en session un temps avant expiration
     if($time>0)
-    $_SESSION["tokenExpire"] = time() + 60*$time; 
+        $_SESSION["tokenExpire"] = time() + 60*$time; 
     /* 
         random_bytes va retourner un nombre d'octet aléatoire d'une longueur donnée en paramètre.
         bin2hex va transformer ces octets en hexadecimal.
