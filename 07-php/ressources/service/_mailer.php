@@ -1,12 +1,12 @@
 <?php 
 /* 
-    __DIR__ est une constante qui contient le chemin vers le dossier où elle est appelé.
-        Exemple : Ici elle contient le chemin complet vers le dossier "service"
+    __DIR__ is a constant that contains the path to the directory where it is called.
+        Example: Here, it holds the full path to the "service" folder.
 
-    Cela me permet d'avoir un chemin toujours valide peu importe où sera require "_mailer.php".
+    This allows me to always have a valid path, no matter where "_mailer.php" is required from.
 
-    autoload.php cet autoloader va nous permettre d'éviter de require chaque bibliothèque que l'on va utiliser.
-    Lorsqu'il verra qu'on appelle une nouvelle classe, il va tenter lui même de require le fichier correspondant.
+    autoload.php – this autoloader helps us avoid requiring every library manually.
+    When it detects that a new class is being used, it will automatically try to require the corresponding file.
 */
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -16,78 +16,79 @@ use PHPMailer\PHPMailer\Exception;
 require __DIR__."/../../vendor/autoload.php";
 
 /**
- * Envoi un mail
+ * Sends an email
  *
- * @param string $from auteur du mail
- * @param string $to destinataire du mail
- * @param string $subject sujet du mail
- * @param string $body contenu du mail
- * @return string Message de validation ou d'erreur
+ * @param string $from Sender of the email
+ * @param string $to Recipient of the email
+ * @param string $subject Subject of the email
+ * @param string $body Content of the email
+ * @return string Success or error message
  */
 function sendMail(string $from, string $to, string $subject, string $body): string
 {
     try
     {
         /* 
-            Je crée un nouvel objet PHPMailer
-            Le paramètre "true" permet d'activer les exceptions
+            Create a new PHPMailer object
+            The "true" parameter enables exceptions
         */
         $mail = new PHPMailer(true);
         /* 
-            Active la connexion SMTP
-            PHPMailer va se connecter à un serveur de mail via SMTP
+            Enable SMTP connection
+            PHPMailer will connect to a mail server via SMTP
             (Simple Mail Transfer Protocol)
         */
         $mail->isSMTP();
         /* 
-            L'adresse du serveur de mail.
-            N'importe quel serveur peut être utilisé, si vous avez un compte gmail, hotmail...
-            Pour les test ici, on utilisera "mailtrap"
-            Un service qui capture les mails et crée une mini boîte mail pour les tests.
+            Mail server address.
+            Any mail server can be used — if you have a Gmail, Hotmail account, etc.
+            For testing purposes here, we’ll use "mailtrap",
+            A service that captures emails and creates a mini inbox for testing.
         */
         $mail->Host = "ChangeMe";
-        // Active l'authentification via smtp
+        // Enable SMTP authentication
         $mail->SMTPAuth = true;
-        // Port utilisé par le serveur de mail
+        // Port used by the mail server
         $mail->Port = 2525;
-        // identifiant pour le serveur de mail
+        // Mail server username
         $mail->Username = "ChangeMe";
         $mail->Password = "ChangeMe";
 
-        // Indique de nombreux détails sur le déroulement de la requête
-        // $mail->SMTPDebug = STMP::DEBUG_SERVER;
-        // Permet de sécurisé l'envoi du mail (mais ne fonctionne pas avec mailtrap)
+        // Shows detailed info about the request process
+        // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        // Secures email sending (not compatible with mailtrap)
         // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
 
-        // paramètre l'auteur du mail
+        // Set the sender of the email
         $mail->setFrom($from);
-        // ajouter un destinataire
+        // Add a recipient
         $mail->addAddress($to);
         /* 
-            On trouvera d'autres methodes comme :
+            You can also use methods like:
                 - addReplyTo
                 - addCC
                 - addBCC
                 - addAttachment
 
-            isHTML permet d'activer la gestion de HTML dans le mail
+            isHTML enables HTML content in the email
         */
         $mail->isHTML(true);
-        // Paramètre le sujet du mail
+        // Set the subject of the email
         $mail->Subject = $subject;
-        // Paramètre le contenu du mail
+        // Set the email content
         $mail->Body = $body;
         /* 
-            On peut optionnellement ajouté un "AltBody" qui sera affiché dans le cas où le HTML n'est pas géré par le destinataire.
+            Optionally, you can add an "AltBody" which will be shown 
+            if the recipient's email client doesn't support HTML.
         */
         $mail->send();
-        return "Email envoyé";
+        return "Email sent";
     }
     // catch(PHPMailer\PHPMailer\Exception $error)
     catch(Exception $error)
     {
-        return "Le mail n'a pas pu être envoyé. Mailer Error : {$error->ErrorInfo}";
+        return "The email could not be sent. Mailer Error: {$error->ErrorInfo}";
     }
 }
 
-// sendMail("maurice@gmail.com", "pierre@gmail.com", "Mon premier mail", "<h1>J'ai envoyé un mail !</h1>");
+// sendMail("maurice@gmail.com", "pierre@gmail.com", "My first email", "<h1>I just sent an email!</h1>");

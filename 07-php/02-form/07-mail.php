@@ -1,10 +1,10 @@
 <?php 
 
 /* 
-    Coder un envoi de mail via PHP qui soit sécurisé et sans erreur est très complexe.
-    C'est pour cela que la plupart des gens passent par un bibliothèque comme par exemple "PHPMailer".
-    Pour l'installer nous allons avoir besoin du gestionnaire de packet "composer" qui lui même aura besoin d'une installation de "PHP".
+    Coding a secure and error-free email sending system in PHP is very complex.
+    That’s why most people use a library such as "PHPMailer".
+    To install it, we’ll need the package manager "composer", which itself requires a PHP installation.
 
-    Pour installer PHPMailer, on tapera la commande :
+    To install PHPMailer, use the command:
         * ***REMOVED*** phpmailer/phpmailer
 */
