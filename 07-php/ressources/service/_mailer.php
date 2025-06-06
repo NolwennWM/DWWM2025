@@ -1,12 +1,12 @@
 <?php 
 /* 
-    __DIR__ est une constante qui contient le chemin vers le dossier où elle est appelé.
-        Exemple : Ici elle contient le chemin complet vers le dossier "service"
+    __DIR__ は、呼び出されたファイルが存在するディレクトリへのパスを保持する定数です。
+        例：ここでは「service」フォルダへのフルパスが格納されています。
 
-    Cela me permet d'avoir un chemin toujours valide peu importe où sera require "_mailer.php".
+    これにより、_mailer.php がどこから require されても常に有効なパスを取得できます。
 
-    autoload.php cet autoloader va nous permettre d'éviter de require chaque bibliothèque que l'on va utiliser.
-    Lorsqu'il verra qu'on appelle une nouvelle classe, il va tenter lui même de require le fichier correspondant.
+    autoload.php は、使用するすべてのライブラリを手動で require する必要をなくすオートローダーです。
+    新しいクラスが使われたときに、自動的に対応するファイルを読み込もうとします。
 */
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -16,78 +16,78 @@ use PHPMailer\PHPMailer\Exception;
 require __DIR__."/../../vendor/autoload.php";
 
 /**
- * Envoi un mail
+ * メールを送信する関数
  *
- * @param string $from auteur du mail
- * @param string $to destinataire du mail
- * @param string $subject sujet du mail
- * @param string $body contenu du mail
- * @return string Message de validation ou d'erreur
+ * @param string $from メールの送信者
+ * @param string $to メールの受信者
+ * @param string $subject メールの件名
+ * @param string $body メールの本文
+ * @return string 成功またはエラーメッセージ
  */
 function sendMail(string $from, string $to, string $subject, string $body): string
 {
     try
     {
         /* 
-            Je crée un nouvel objet PHPMailer
-            Le paramètre "true" permet d'activer les exceptions
+            新しい PHPMailer オブジェクトを作成
+            "true" を渡すことで例外処理が有効になります
         */
         $mail = new PHPMailer(true);
         /* 
-            Active la connexion SMTP
-            PHPMailer va se connecter à un serveur de mail via SMTP
-            (Simple Mail Transfer Protocol)
+            SMTP を使用して接続を有効にする
+            PHPMailer は SMTP（Simple Mail Transfer Protocol）を使ってメールサーバーへ接続します
         */
         $mail->isSMTP();
         /* 
-            L'adresse du serveur de mail.
-            N'importe quel serveur peut être utilisé, si vous avez un compte gmail, hotmail...
-            Pour les test ici, on utilisera "mailtrap"
-            Un service qui capture les mails et crée une mini boîte mail pour les tests.
+            メールサーバーのアドレスを設定
+            Gmail や Hotmail など任意のサーバーが使用可能です。
+            ここではテスト用に "mailtrap" を使用します。
+            mailtrap はテスト用にメールを捕捉し、仮想受信箱を提供してくれるサービスです。
         */
         $mail->Host = "ChangeMe";
-        // Active l'authentification via smtp
+        // SMTP認証を有効化
         $mail->SMTPAuth = true;
-        // Port utilisé par le serveur de mail
+        // メールサーバーが使用するポート
         $mail->Port = 2525;
-        // identifiant pour le serveur de mail
+        // メールサーバーのユーザー名
         $mail->Username = "ChangeMe";
         $mail->Password = "ChangeMe";
 
-        // Indique de nombreux détails sur le déroulement de la requête
-        // $mail->SMTPDebug = STMP::DEBUG_SERVER;
-        // Permet de sécurisé l'envoi du mail (mais ne fonctionne pas avec mailtrap)
+        // リクエストの処理過程を詳細に表示する（デバッグ用）
+        // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        // メール送信のセキュリティを有効にする（ただし mailtrap では使用不可）
         // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
 
-        // paramètre l'auteur du mail
+        // 送信者情報を設定
         $mail->setFrom($from);
-        // ajouter un destinataire
+        // 受信者を追加
         $mail->addAddress($to);
         /* 
-            On trouvera d'autres methodes comme :
-                - addReplyTo
-                - addCC
-                - addBCC
-                - addAttachment
+            以下のような他のメソッドも利用可能：
+                - addReplyTo（返信先）
+                - addCC（カーボンコピー）
+                - addBCC（ブラインドカーボンコピー）
+                - addAttachment（添付ファイル）
 
-            isHTML permet d'activer la gestion de HTML dans le mail
+            isHTML を有効にすると、HTML メールとして送信されます
         */
         $mail->isHTML(true);
-        // Paramètre le sujet du mail
+        // メールの件名を設定
         $mail->Subject = $subject;
-        // Paramètre le contenu du mail
+        // メール本文を設定（HTML可）
         $mail->Body = $body;
         /* 
-            On peut optionnellement ajouté un "AltBody" qui sera affiché dans le cas où le HTML n'est pas géré par le destinataire.
+            オプションで AltBody を追加可能。
+            HTML メールを受信できない環境のためのテキスト版本文です。
         */
         $mail->send();
-        return "Email envoyé";
+        return "メールが送信されました";
     }
     // catch(PHPMailer\PHPMailer\Exception $error)
     catch(Exception $error)
     {
-        return "Le mail n'a pas pu être envoyé. Mailer Error : {$error->ErrorInfo}";
+        return "メールの送信に失敗しました。エラー内容: {$error->ErrorInfo}";
     }
 }
 
-// sendMail("maurice@gmail.com", "pierre@gmail.com", "Mon premier mail", "<h1>J'ai envoyé un mail !</h1>");
+// sendMail("maurice@gmail.com", "pierre@gmail.com", "はじめてのメール", "<h1>メールを送信しました！</h1>");
