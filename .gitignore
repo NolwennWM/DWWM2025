@@ -3,3 +3,4 @@
 test.*
 fontawesome-*
 node_modules/
+vendor/
