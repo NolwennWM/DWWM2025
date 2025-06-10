@@ -1,21 +1,21 @@
 <?php 
 /**
- * Retourne une instance de connexion PDO pour se connecter à la BDD "blog"
+ * Returns a PDO connection instance to connect to the "blog" database
  *
  * @return \PDO
  */
 function connexionPDO(): \PDO
 {
-    // Pour plus de détail, voir le cours "00-database.php"
+    // For more details, see the course "00-database.php"    try
     try
     {
-        // Je récupère ma configuration :
+        // I'm getting my configuration :
         $config = require __DIR__."/../config/_blogConfig.php";
-        // Je construit mon DSN :
+        // I construct my DSN :
         $dsn = "mysql:host={$config['host']};port={$config['port']};dbname={$config['dbname']};charset={$config['charset']}";
-        // Je crée mon instance de PDO :
+        // I create my PDO instance :
         $pdo = new \PDO($dsn, $config["user"], $config["password"], $config["options"]);
-        // je retourne mon instance :
+        // I return my instance :
         return $pdo;
     }
     catch(\PDOException $e)

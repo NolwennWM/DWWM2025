@@ -1,6 +1,6 @@
 <?php 
 /* 
-    Je récupère dans mes variables d'environnement les informations de connexion à la BDD.
+    I retrieve the connection information to the database from my environment variables.
 */
 return
 [

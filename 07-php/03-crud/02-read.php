@@ -1,22 +1,22 @@
 <?php 
-// Je require ma fonction de connexion à la BDD
+// I require my database connection function
 require "../ressources/service/_pdo.php";
 
-// je me connecte à la BDD
+// I connect to the database
 $db = connexionPDO();
 
-// je lance ma requête
+// I run my request
 $sql = $db->query("SELECT idUser, username FROM users");
 
-// Je récupère tous mes utilisateurs
+// I get all my users
 $users = $sql->fetchAll();
 /* 
-    CRUD signifie 
+    CRUD stands for
         Create
         Read
         Update
         Delete
-    Ce sont les actions qui devraient être possible sur chaque table de la BDD.
+    These are the actions that should be possible on each table in the database.
 */
 $title = " CRUD - Liste Utilisateur";
 require "../ressources/template/_header.php";
@@ -32,7 +32,7 @@ if($users):
             </tr>
         </thead>
         <tbody>
-            <!-- Mes données sont sous forme de tableau (fetchAll) donc je vais devoir faire une boucle pour toute les afficher : -->
+            <!-- My data are in an array (fetchAll) so I will have to loop to display all of it : -->
             <?php foreach($users as $row): ?>
                 <tr>
                     <td><?= $row["idUser"] ?></td>
