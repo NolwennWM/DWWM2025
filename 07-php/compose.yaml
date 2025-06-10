@@ -1,4 +1,4 @@
-# Cette version utilise le .env afin de sécuriser les données
+# This version uses .env to secure data
 services:
   web:
     build: .
@@ -25,8 +25,8 @@ services:
       - MARIADB_ROOT_PASSWORD=${DB_PASSWORD}
     ports:
       - "3390:3306"
-    # le volume déclaré tout en bas permet de garder les données de la bdd quand le compose est down
-    # Le bind mount de l'entrypoint permet de charger des fichiers SQL dès le lancement du compose.
+    # the volume declared at the very bottom allows the database data to be kept when the compose is down
+    # The entrypoint bind mount allows SQL files to be loaded as soon as the compose is launched.
     volumes:
       - mariadb_data:/var/lib/mysql
       - ./ressources/database:/docker-entrypoint-initdb.d
@@ -65,6 +65,6 @@ services:
       - ME_CONFIG_MONGODB_ADMINPASSWORD=${DB_PASSWORD}
       - ME_CONFIG_BASICAUTH_USERNAME=${DB_USER}
       - ME_CONFIG_BASICAUTH_PASSWORD=${DB_PASSWORD}
-# Ceci permet de créer un volume dans docker, qui est une zone permettant le stockage de donnée hors des container.
+# This allows you to create a volume in Docker, which is an area allowing data storage outside of containers.
 volumes:
   mariadb_data:
