@@ -86,7 +86,6 @@ if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['login']))
                 header("Location: /");
                 exit;
             } else
-            } else
             {
                 $error["login"] = "メールアドレスまたはパスワードが間違っています（パスワード）";
             } // パスワードチェック終了
