@@ -74,7 +74,11 @@ require "./ressources/template/_header.php";
             <h3>03 - CRUD :</h3>
             <ol>
                 <li>
+<<<<<<< HEAD
                     <a href="./03-crud/00-database.php">Utilisation BDD</a>
+=======
+                    <a href="./03-crud/00-database.php">Connexion à la bdd</a>
+>>>>>>> main
                 </li>
                 <li>
                     <a href="./03-crud/02-read.php">Liste Utilisateur</a>
