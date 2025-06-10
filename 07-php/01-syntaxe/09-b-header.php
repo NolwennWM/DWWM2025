@@ -1,4 +1,5 @@
 <?php 
+<?php 
 /* 
     "refresh:" を使うと、数秒後にページを再読み込みできます。
     さらに "url=" を加え、セミコロン ";" で区切ると、
@@ -17,3 +18,4 @@ require("../ressources/template/_header.php");
 <?php
 require("../ressources/template/_footer.php");
 ?>
+

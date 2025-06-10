@@ -86,3 +86,4 @@ for($i = 0; $i < $strLength; $i++) {
 header('Content-type: image/png');
 imagepng($image);
 ?>
+

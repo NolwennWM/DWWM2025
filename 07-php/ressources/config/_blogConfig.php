@@ -1,6 +1,6 @@
 <?php 
 /* 
-    Je récupère dans mes variables d'environnement les informations de connexion à la BDD.
+    環境変数からデータベースへの接続情報を取得します。
 */
 return
 [
