@@ -70,9 +70,12 @@ require "./ressources/template/_header.php";
                 </li>
             </ol>
         </li> 
-        <!-- <li>
+        <li>
             <h3>03 - CRUD :</h3>
             <ol>
+                <li>
+                    <a href="./03-crud/00-database.php">Connexion à la bdd</a>
+                </li>
                 <li>
                     <a href="./03-crud/02-read.php">Liste Utilisateur</a>
                 </li>
@@ -91,7 +94,7 @@ require "./ressources/template/_header.php";
                     </ul>
                 </li>
             </ol>
-        </li> -->
+        </li>
         <!-- <li>
             <h3>04 - ROUTER :</h3>
             <ol>
