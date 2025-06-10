@@ -1,21 +1,21 @@
 <?php 
 /**
- * Retourne une instance de connexion PDO pour se connecter à la BDD "blog"
+ * 「ブログ」データベースに接続するためのPDO接続インスタンスを返します
  *
  * @return \PDO
  */
 function connexionPDO(): \PDO
 {
-    // Pour plus de détail, voir le cours "00-database.php"
+    // 詳細については、「00-database.php」コースを参照してください。
     try
     {
-        // Je récupère ma configuration :
+        // 設定を取得しています :
         $config = require __DIR__."/../config/_blogConfig.php";
-        // Je construit mon DSN :
+        // DSNを構築する :
         $dsn = "mysql:host={$config['host']};port={$config['port']};dbname={$config['dbname']};charset={$config['charset']}";
-        // Je crée mon instance de PDO :
+        // PDOインスタンスを作成する :
         $pdo = new \PDO($dsn, $config["user"], $config["password"], $config["options"]);
-        // je retourne mon instance :
+        // インスタンスを返す :
         return $pdo;
     }
     catch(\PDOException $e)

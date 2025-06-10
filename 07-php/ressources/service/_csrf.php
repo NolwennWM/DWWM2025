@@ -57,3 +57,4 @@ function cleanData(string $data): string{
     return htmlspecialchars($data);
 }
 ?>
+

@@ -1,22 +1,22 @@
 <?php 
-// Je require ma fonction de connexion à la BDD
+// データベース接続機能が必要です
 require "../ressources/service/_pdo.php";
 
-// je me connecte à la BDD
+// データベースに接続する
 $db = connexionPDO();
 
-// je lance ma requête
+// 私はリクエストを実行します
 $sql = $db->query("SELECT idUser, username FROM users");
 
-// Je récupère tous mes utilisateurs
+// すべてのユーザーを獲得
 $users = $sql->fetchAll();
 /* 
-    CRUD signifie 
+    CRUD とは
         Create
         Read
         Update
         Delete
-    Ce sont les actions qui devraient être possible sur chaque table de la BDD.
+    データベース内の各テーブルに対して実行可能なアクションのことです。
 */
 $title = " CRUD - Liste Utilisateur";
 require "../ressources/template/_header.php";
@@ -32,7 +32,7 @@ if($users):
             </tr>
         </thead>
         <tbody>
-            <!-- Mes données sont sous forme de tableau (fetchAll) donc je vais devoir faire une boucle pour toute les afficher : -->
+            <!-- データは配列（fetchAll）にあるので、すべてを表示するにはループする必要があります。 : -->
             <?php foreach($users as $row): ?>
                 <tr>
                     <td><?= $row["idUser"] ?></td>

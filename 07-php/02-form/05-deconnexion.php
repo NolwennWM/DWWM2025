@@ -29,3 +29,4 @@ setcookie("PHPSESSID", "", time()-3600);
 header("Location: ./04-connexion.php");
 exit;
 ?>
+

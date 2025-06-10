@@ -81,7 +81,7 @@ require("../ressources/template/_header.php");
 <form action="02-post.php" method="POST">
     <input 
         type="text" 
-        placeholder="Entrez un nom" 
+        placeholder="Enter a name" 
         name="username" 
         value="<?= $username ?>" 
         class="<?= empty($error["username"])?"":"formError" ?>"
@@ -127,3 +127,4 @@ require("../ressources/template/_header.php");
 <?php 
 require("../ressources/template/_footer.php");
 ?>
+

@@ -10,3 +10,4 @@
     PHPMailerをインストールするには、以下のコマンドを実行します：
         * ***REMOVED*** phpmailer/phpmailer
 */
+
