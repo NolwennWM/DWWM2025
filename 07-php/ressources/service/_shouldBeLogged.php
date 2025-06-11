@@ -3,11 +3,11 @@ if(session_status() === PHP_SESSION_NONE)
 	session_start();
 
 /**
- * Vérifie si l'utilisateur est connecté ou non et le redirige dans le cas contraire
+ * Checks whether the user is logged in or not and redirects if not.
  * 
- * Si le Boolean est à true, vérifie si l'utilisateur est connecté, 
- * Si le boolean est à false, vérifie si l'utilisateur est déconnecté,
- * Le second argument indique vers où rediriger l'utilisateur.
+ * If the Boolean is true, checks if the user is logged in. 
+ * If the Boolean is false, checks if the user is logged out.
+ * The second argument indicates where to redirect the user.
  *
  * @param boolean $logged
  * @param string $redirect
@@ -19,7 +19,7 @@ function shouldBeLogged(bool $logged = true, string $redirect = "/"): void
     {
         if(isset($_SESSION["expire"]))
         {
-            // Si la session a expiré, on la supprime
+            // If the session has expired, it is destroyed
             if(time()> $_SESSION["expire"])
             {
                 unset($_SESSION);
@@ -27,13 +27,13 @@ function shouldBeLogged(bool $logged = true, string $redirect = "/"): void
                 setcookie("PHPSESSID", "", time()-3600);
             }else
             {
-                // Sinon elle est renouvelé pour une heure
+                // Otherwise, it is renewed for one hour
                 $_SESSION["expire"] = time() + 3600;
             }
-        } // fin vérification expire
+        } // end of expiration check
         if(!isset($_SESSION["logged"]) || $_SESSION["logged"] !== true)
         {
-            // Si l'utilisateur n'est pas connecté, on le redirige.
+            // If the user is not logged in, redirect them.
             header("Location: $redirect");
             exit;
         }
@@ -41,9 +41,9 @@ function shouldBeLogged(bool $logged = true, string $redirect = "/"): void
     else
     {
         /* 
-            Si l'utilisateur doit être déconnecté pour accèder à la page,
-            alors on vérifie si il est connecté,
-            et dans ce cas on le redirige
+            If the user must be logged out to access the page,
+            then we check if they are logged in,
+            and in that case, we redirect them
         */
         if(isset($_SESSION["logged"]) && $_SESSION["logged"] === true)
         {
@@ -53,7 +53,7 @@ function shouldBeLogged(bool $logged = true, string $redirect = "/"): void
     }
 }
 /**
- * Redirige l'utilisateur si il ne correspond pas à l'id fourni en GET ou en POST;
+ * Redirects the user if they do not match the ID provided via GET or POST;
  *
  * @param string $redirect
  * @param string $index 
