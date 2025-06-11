@@ -60,7 +60,7 @@ or a modified string depending on the given filter.
                 $error["email"] = "Cet email est déjà utilisé";
             }
         }
-    }// fin vérification email
+    }// end of email verification
     if(empty($_POST["password"]))
     {
         $error["password"] = "Veuillez saisir un mot de passe";
@@ -74,10 +74,10 @@ or a modified string depending on the given filter.
         }
         else
         {
-            // ! Je hash le mot de passe
+            // ! I hash the password
             $password = password_hash($password, PASSWORD_DEFAULT);
         }
-    }// fin vérification password
+    }// end of password verification
     if(empty($_POST["passwordBis"]))
     {
         $error["passwordBis"] = "Veuillez confirmer votre mot de passe";
@@ -85,15 +85,15 @@ or a modified string depending on the given filter.
     elseif($_POST["password"] !== $_POST["passwordBis"])
     {
         $error["passwordBis"] = "Veuillez saisir le même mot de passe";
-    }// fin confirmation password
+    }// end of password confirmation
     if(empty($error))
     {
-        // Si on n'a pas d'erreur, alors on peut enregistré notre utilisateur en BDD
+        // If there are no errors, we can save the user in the database
         $sql = $pdo->prepare("INSERT INTO users(username, email, password) VALUES(?, ?, ?)");
-        // je lance la requête :
+        // I execute the query :
         $sql->execute([$username, $email, $password]);
 
-        // Une fois terminé, je peux rediriger mon utilisateur ailleurs :
+        // Once finished, I can redirect the user elsewhere:
         header("Location: /");
         exit;
     }
