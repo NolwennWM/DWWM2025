@@ -86,7 +86,7 @@ require "./ressources/template/_header.php";
                     <h4>Exercice :</h4>
                     <ul>
                         <li>
-                            <a href="./03-crud/exercice/connexion.php">connexion</a>
+                            <a href="./03-crud/exercice/login.php">connexion</a>
                         </li>
                         <li>
                             <a href="./03-crud/exercice/deconnexion.php">déconnexion</a>

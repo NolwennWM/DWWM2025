@@ -25,7 +25,7 @@ if(session_status() !== PHP_SESSION_ACTIVE)
         <h1><?php echo $title??"Cours PHP" ?></h1>
         <?php 
             // affiche le nom de l'utilisateur si il est connecté
-            if(isset($_SESSION["logged"]))
+            if(isset($_SESSION["logged"]) || isset($_SESSION["logged_in"]))
             {
                 echo "<h2>{$_SESSION['username']}</h2>";
             }

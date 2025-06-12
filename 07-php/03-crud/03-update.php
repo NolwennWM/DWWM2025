@@ -1,5 +1,15 @@
 <?php 
-$user = null;
+require "../ressources/service/_csrf.php";
+require "../ressources/service/_pdo.php";
+require "../ressources/service/_shouldBeLogged.php";
+
+shouldBeLogged(true, "/");
+
+$db = connexionPDO();
+$sql = $db->prepare("SELECT * FROM users WHERE idUser=?");
+$sql->execute([(int)$_SESSION["user_id"]]);
+
+$user = $sql->fetch();
 
 $title = " CRUD - Mise à jour du Profil ";
 require("../ressources/template/_header.php");
