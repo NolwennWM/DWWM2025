@@ -35,3 +35,11 @@ if(session_status() !== PHP_SESSION_ACTIVE)
     <!-- On ouvre le body ici mais on ne le ferme pas, il sera fermé
     dans le footer. -->
     <main class="<?php echo $mainClass??"" ?>">
+        <!-- gestion des messages flash : -->
+        <?php 
+            if(isset($_SESSION["flash"]))
+            {
+                echo "<div class='flash-message'>{$_SESSION['flash']}</div>";
+                unset($_SESSION["flash"]);
+            }
+        ?>
