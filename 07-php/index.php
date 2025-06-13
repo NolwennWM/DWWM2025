@@ -86,18 +86,26 @@ require "./ressources/template/_header.php";
                 <li>
                     <a href="./03-crud/01-create.php">Inscription</a>
                 </li>
-                <li>
-                    <a href="./03-crud/03-update.php">Profil</a>
-                </li>
+                <?php if(isset($_SESSION["logged_in"])) :?>
+                    <li>
+                        <a href="./03-crud/03-update.php">Profil</a>
+                    </li>
+                    <li>
+                        <a href="./03-crud/04-delete.php">Supprimer Compte</a>
+                    </li>
+                <?php endif; ?>
                 <li>
                     <h4>Exercice :</h4>
                     <ul>
+                        <?php if(!isset($_SESSION["logged_in"])) :?>
                         <li>
                             <a href="./03-crud/exercice/login.php">connexion</a>
                         </li>
+                        <?php else: ?>
                         <li>
                             <a href="./03-crud/exercice/deconnexion.php">déconnexion</a>
                         </li>
+                        <?php endif; ?>
                     </ul>
                 </li>
             </ol>
