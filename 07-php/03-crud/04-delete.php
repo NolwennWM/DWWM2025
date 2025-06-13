@@ -1,22 +1,24 @@
 <?php 
-// On vérifie que l'utilisateur est bien connecté.
+// ユーザーがログインしているかどうかを確認する
 require "../ressources/service/_shouldBeLogged.php";
 shouldBeLogged(true, "./exercice/login.php");
 
-// On se connecte à la base de donnée.
+// データベースに接続する
 require "../ressources/service/_pdo.php";
 $db = connexionPDO();
-// On supprime l'utilisateur :
+
+// ユーザーを削除する
 $sql = $db->prepare("DELETE FROM users WHERE idUser = ?");
 $sql->execute([$_SESSION["user_id"]]);
 
-// L'utilisateur est supprimé, mais il est encore connecté, il faut le déconnecter :
+// ユーザーは削除されたが、まだログイン状態なのでログアウトさせる
 session_destroy();
 unset($_SESSION);
 setcookie("PHPSESSID", "", time()-3600);
 
-// J'attends 5 secondes avant de le rediriger pour qu'il puisse voir le message de confirmation :
+// 確認メッセージを表示するために5秒待ってからリダイレクトする
 header("refresh: 5;url=/");
+
 $title = "CRUD - Suppression Utilisateur";
 require "../ressources/template/_header.php";
 ?>
