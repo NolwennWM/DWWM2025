@@ -1,21 +1,21 @@
-# Le fichier .htaccess est lu par apache à chaque requête passant par son dossier.
-# On va s'en servir pour rediriger toute les requêtes vers un même fichier.
+# The .htaccess file is read by Apache for every request in its directory.
+# We'll use it to redirect all requests to a single file.
 
-# --- Activer l'outil de réécriture d'URL.
+# --- Enable the URL rewriting tool.
 RewriteEngine On
 
-# ---- Exclure les fichiers statiques de la redirection avec une condition (images, css, js...)
+# ---- Exclude static files from redirection using a condition (images, css, js, etc.)
 RewriteCond %{REQUEST_URI} !\.(png|jpg|gif|jpeg|svg|css|js|ico)$
-# %{REQUEST_URI} est une variable fournie par apache
-# "!" indique qu'on souhaite inverser la condition suivante.
-# Puis ce qui suis le "!" est une REGEX
+# %{REQUEST_URI} is a variable provided by Apache
+# "!" means we want to invert the following condition.
+# What follows the "!" is a REGEX
 
-# --- Rediriger tout le reste vers index.php
+# --- Redirect everything else to index.php
 RewriteRule (.*) index.php [QSA,L]
 
-# (.*) regex indiquant que l'on souhaite réécrire tout l'url.
-# "index.php" nouvel URL.
+# (.*) is a regex that indicates we want to rewrite the entire URL.
+# "index.php" is the new URL.
 
-# flag utilisés : [QSA,L]
-# QSA (Query String Append) : conserver les paramètres en GET
-# L (Last) : stoppe l'application des règles suivante si celle-ci est appliqué.
+# Flags used: [QSA,L]
+# QSA (Query String Append): keep the GET parameters
+# L (Last): stop applying further rules if this one matches.

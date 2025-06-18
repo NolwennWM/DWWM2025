@@ -1,63 +1,63 @@
 <?php 
 /*
-    Actuellement peu importe l'url écrit, on est redirigé vers ce fichier.
-    On va donc lui demander de traiter l'url est de charger le fichier correspondant.
+    Currently, no matter what URL is written, we are redirected to this file.
+    So we'll ask it to process the URL and load the corresponding file.
 
-    Je require mes routes :
+    Requiring my routes:
 */
 require "./routes.php";
 
-// Permet de récupérer l'url qui a été demandé par l'utilisateur :
+// Retrieves the URL requested by the user:
 $url = $_SERVER["REQUEST_URI"];
 
-// Nettoie l'URL pour supprimer les caractères indésirable
+// Cleans the URL to remove unwanted characters
 $url = filter_var($url, FILTER_SANITIZE_URL);
 /* 
-    explode découpe un string en tableau, en utilisant le premier paramètre comme séparateur.
-    Ici on lui indique de découper le string à chaque "?" et de récupérer uniquement le premier élément "[0]"
-    Cela afin de se débarasser de possible paramètre en get
+    explode splits a string into an array using the first parameter as a separator.
+    Here we tell it to split the string at every "?" and only take the first element "[0]"
+    This is to get rid of possible GET parameters
 */
 $url = explode("?", $url)[0];
 
-// Avec un second paramètre, trim permet de retirer au debut et à la fin, des caractères différent.
+// With a second parameter, trim removes different characters at the beginning and end
 $url = trim($url, "/");
 
 // var_dump($url);
 
-// Est ce que notre url existe dans nos routes?
+// Does our URL exist in our routes?
 if(array_key_exists($url, ROUTES))
 {
     $page = ROUTES[$url];
     $path = "pages/$page";
     // var_dump($page, $path);
 
-    // Vérifie si le fichier dont on indique le chemin, existe.
+    // Checks if the file at the given path exists
     if(is_file($path))
     {
         require $path;
     }
     else
     {
-        // Si le fichier n'existe pas, alors on require notre page 404:
+        // If the file doesn't exist, load our 404 page:
         require "pages/404.php";
     }
 }
 else
 {
-    // Si l'url n'existe pas, alors on require notre page 404:
+    // If the URL doesn't exist, load our 404 page:
     require "pages/404.php";
 }
 
 /* 
-    ! ATTENTION aux requires/include
+    ! WARNING about requires/include
 
-    Avec le routeur, tous les fichiers sont require dans l'index.
-    Donc les chemins des requires des autres fichiers sont fait par rapport à l'index et non plus par rapport à leurs positions à eux.
+    With the router, all files are required in the index.
+    So the require paths in other files must be relative to the index, not to their own location.
 
-    Deux solutions :
-        - Soit faire tout les require par rapport à l'index.
-        - Soit ajouter devant chaque require "__DIR__" afin d'ajouter le chemin vers le dossier du fichier correspondant.
+    Two solutions:
+        - Either make all requires relative to the index.
+        - Or add "__DIR__" before each require to add the correct folder path.
 
-    Un router plus complet :
+    A more complete router:
         https://phprouter.com/
 */
