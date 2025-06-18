@@ -106,28 +106,22 @@ require "./ressources/template/_header.php";
                 </li>
             </ol>
         </li>
-        <!-- <li>
+        <li>
             <h3>04 - ROUTER :</h3>
             <ol>
                 <li>
-                    <a href="./04-router">Page 1</a>
+                    <a href="./04-router">Liste utilisateur</a>
                 </li>
                 <li>
-                    <a href="./04-router/p2">Page 2</a>
+                    <a href="./04-router/inscription">Inscription</a>
                 </li>
                 <li>
                     <h4>Exercice :</h4>
                     <ul>
-                        <li>
-                            <a href="./04-router/exercice">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="./04-router/exercice/p2">page 2</a>
-                        </li>
                     </ul>
                 </li>
             </ol>
-        </li> -->
+        </li>
         <!-- <li>
             <h3>05 - MVC :</h3>
             <ol>
