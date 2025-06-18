@@ -38,7 +38,7 @@ if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['logIn'])) {
         $_SESSION["user_id"] = $user['idUser'];
         $_SESSION["username"] = $user['username'];
         $_SESSION["logged_in"] = true;
-        header("Location: ./messages.php");
+        header("Location: ./blog/read.php");
     }
 }
 

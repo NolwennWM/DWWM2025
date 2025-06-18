@@ -1,0 +1,21 @@
+# .htaccess ファイルは、Apache がそのディレクトリ内のリクエストごとに読み込む設定ファイルです。
+# 全てのリクエストを1つのファイルにリダイレクトするために使用します。
+
+# --- URL 書き換え機能を有効化
+RewriteEngine On
+
+# ---- 静的ファイル（画像、CSS、JSなど）はリダイレクトから除外
+RewriteCond %{REQUEST_URI} !\.(png|jpg|gif|jpeg|svg|css|js|ico)$
+# %{REQUEST_URI} は Apache によって提供される変数
+# "!" は次の条件を否定する（マッチしない場合に適用する）
+# "!" の後は正規表現（REGEX）
+
+# --- その他すべてを index.php にリダイレクト
+RewriteRule (.*) index.php [QSA,L]
+
+# (.*) はURL全体を対象とする正規表現
+# "index.php" が新しいURL
+
+# 使用されているフラグ: [QSA,L]
+# QSA（Query String Append）：GETパラメータを保持
+# L（Last）：このルールが適用されたら、以降のルールの適用を停止
