@@ -1,7 +1,7 @@
 <?php 
 /* 
-    Pour un même fichier controller, j'ai plusieurs pages qui sont gérés.
-    Je fais donc évoluer mon système de route pour qu'en plus d'avoir un fichier à charger, il y ai aussi une fonction à appeler.
+    For a single controller file, I manage several pages.
+    So I'm updating my routing system to not only specify a file to load, but also a function to call.
 */
 const ROUTES = [
     "05-mvc"=>[
@@ -20,5 +20,5 @@ const ROUTES = [
         "controller"=>"userController.php",
         "fonction"=>"deleteUser"
     ],
-    // Exercices :
+    // Exercises:
 ];

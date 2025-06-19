@@ -12,28 +12,28 @@ $url = trim($url, "/");
 
 if(array_key_exists($url, ROUTES))
 {
-    // J'indique que le nom de mon fichier se trouve à la clef "controller"
+    // I specify that the name of my file is stored under the key "controller"
     $page = ROUTES[$url]["controller"];
-    // Que le chemin du fichier à charger est le dossier "controller"
+    // The path of the file to load is in the "controller" folder
     $path = "./controller/$page";
-    // Que la fonction à lancer se trouve à la clef "fonction"
+    // The function to call is stored under the key "fonction"
     $fonction = ROUTES[$url]["fonction"];
 
     if(is_file($path))
     {
-        // Je require mon controller.
+        // I require my controller.
         require $path;
-        // j'apelle la fonction correspondante :
+        // I call the corresponding function:
         $fonction();
     }
     else
     {
-        // Je change le chemin de ma page 404
+        // I change the path to my 404 page
         require "./view/404.php";
     }
 }
 else
 {
-    // Je change le chemin de ma page 404
+    // I change the path to my 404 page
     require "./view/404.php";
 }
