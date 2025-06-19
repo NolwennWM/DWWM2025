@@ -12,28 +12,28 @@ $url = trim($url, "/");
 
 if(array_key_exists($url, ROUTES))
 {
-    // J'indique que le nom de mon fichier se trouve à la clef "controller"
+    // ファイル名は "controller" というキーに格納されていることを指定します
     $page = ROUTES[$url]["controller"];
-    // Que le chemin du fichier à charger est le dossier "controller"
+    // 読み込むファイルのパスは "controller" フォルダにあるとします
     $path = "./controller/$page";
-    // Que la fonction à lancer se trouve à la clef "fonction"
+    // 呼び出す関数は "fonction" というキーに格納されています
     $fonction = ROUTES[$url]["fonction"];
 
     if(is_file($path))
     {
-        // Je require mon controller.
+        // コントローラーを読み込みます
         require $path;
-        // j'apelle la fonction correspondante :
+        // 対応する関数を呼び出します：
         $fonction();
     }
     else
     {
-        // Je change le chemin de ma page 404
+        // 404ページのパスを変更します
         require "./view/404.php";
     }
 }
 else
 {
-    // Je change le chemin de ma page 404
+    // 404ページのパスを変更します
     require "./view/404.php";
 }
