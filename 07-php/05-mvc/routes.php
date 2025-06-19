@@ -1,7 +1,7 @@
 <?php 
 /* 
-    Pour un même fichier controller, j'ai plusieurs pages qui sont gérés.
-    Je fais donc évoluer mon système de route pour qu'en plus d'avoir un fichier à charger, il y ai aussi une fonction à appeler.
+    1つのコントローラーファイルで複数のページを管理しています。
+    そのため、読み込むファイルだけでなく、呼び出す関数も指定できるようにルーティングシステムを改良しています。
 */
 const ROUTES = [
     "05-mvc"=>[
@@ -20,5 +20,5 @@ const ROUTES = [
         "controller"=>"userController.php",
         "fonction"=>"deleteUser"
     ],
-    // Exercices :
+    // 演習：
 ];
