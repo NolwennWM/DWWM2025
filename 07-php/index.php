@@ -122,7 +122,7 @@ require "./ressources/template/_header.php";
                 </li>
             </ol>
         </li>
-        <!-- <li>
+        <li>
             <h3>05 - MVC :</h3>
             <ol>
                 <li>
@@ -134,12 +134,6 @@ require "./ressources/template/_header.php";
                 <li>
                     <h4>Exercice :</h4>
                     <ul>
-                        <li>
-                        <a href="./05-mvc/connexion">Connexion</a>
-                    </li>
-                    <li>
-                        <a href="./05-mvc/deconnexion">Déconnexion</a>
-                    </li>
                     </ul>
                 </li>
             </ol>
