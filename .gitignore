@@ -5,3 +5,4 @@ fontawesome-*
 node_modules/
 vendor/
 .env
+*.log
