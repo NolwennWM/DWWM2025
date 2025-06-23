@@ -2,14 +2,14 @@
 
 try
 {
-    // Récupération et nettoyage de l'URL appelée
+    // Retrieve and sanitize the requested URL
     $url = filter_var($_SERVER["REQUEST_URI"], FILTER_SANITIZE_URL);
-    $url = explode("?", $url)[0]; // Suppression des éventuels paramètres GET
-    $url = trim($url, "/");       // Suppression du slash en début/fin
+    $url = explode("?", $url)[0]; // Remove possible GET parameters
+    $url = trim($url, "/");       // Remove slashes from beginning/end
 
-    // Vérifie si l'URL correspond à une route définie
+    // Check if the URL matches a defined route
     if (array_key_exists($url, ROUTES)) {
-        // Inclusion du contrôleur correspondant à la route
+        // Include the corresponding controller
         $controllerPath = "./controller/" . ROUTES[$url];
         if (file_exists($controllerPath)) {
             require($controllerPath);
@@ -21,7 +21,7 @@ try
     }
 }
 catch (\Throwable $e) {
-    // Log de l'erreur dans le fichier error.log
+    // Log the error in the error.log file
     handleLogs($e->getMessage(), $e->getFile(), $e->getLine());
 
     $error = [];

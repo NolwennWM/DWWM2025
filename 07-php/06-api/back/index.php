@@ -1,7 +1,7 @@
 <?php 
-// constante indiquant si nous somme en développement ou en production.
+// Constant indicating whether we are in development or production.
 const APP_ENV = "dev";
 
-require "./api.php"; // Logique et outils de l'API.
-require "./routes.php"; // déclaration des routes.
-require "./router.php"; // Gestion du routage.
+require "./api.php"; // API logic and utilities.
+require "./routes.php"; // Route declarations.
+require "./router.php"; // Routing management.
