@@ -1,12 +1,26 @@
 <?php 
-// TODO
+// Indique les méthodes acceptées par cette page :
+header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE");
+
 session_start();
 require __DIR__."/../model/userModel.php";
 require __DIR__."/../../../ressources/service/_csrf.php";
 
 $regexPass = "/^(?=.*[!?@#$%^&*+-])(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{6,}$/";
 
-// TODO
+/* 
+    Le principe d'une api REST (REpresentational State Transfer)
+    est d'avoir pour une même adresse, (ici /06-api/back/user)
+    Différentes actions réalisées selon la méthode utilisée :
+*/
+switch($_SERVER["REQUEST_METHOD"])
+{
+    case "POST": create(); break;
+    case "GET": read(); break;
+    case "PUT": update(); break;
+    case "DELETE": delete(); break;
+}
+
 /**
  * Gère la page d'inscription.
  *
