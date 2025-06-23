@@ -14,12 +14,24 @@ try
         if (file_exists($controllerPath)) {
             require($controllerPath);
         } else {
-            // TODO
+            sendResponse([], 500, "Controller Not Found");
         }
     } else {
-        // TODO
+        sendResponse([], 404, "Not Found");
     }
 }
 catch (\Throwable $e) {
-    // TODO
+    // Log de l'erreur dans le fichier error.log
+    handleLogs($e->getMessage(), $e->getFile(), $e->getLine());
+
+    $error = [];
+    if(APP_ENV === "dev")
+    {
+        $error = [
+            "errorMessage"=>$e->getMessage(),
+            "errorFile"=>$e->getFile(),
+            "errorLine"=>$e->getLine()
+        ];
+    }
+    sendResponse($error, 500, "Internal Server Error");
 }
