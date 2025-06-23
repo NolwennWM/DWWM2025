@@ -1,8 +1,9 @@
 <?php 
 require __DIR__."/../../../ressources/service/_pdo.php";
 $pdo = connexionPDO();
+
 /**
- * Récupère tous les utilisateurs.
+ * Retrieves all users.
  *
  * @return array
  */
@@ -11,8 +12,9 @@ function getAllUsers(): array{
     $sql = $pdo->query("SELECT idUser, username FROM users");
     return $sql->fetchAll();
 }
+
 /**
- * Selectionne un utilisateur par son Email.
+ * Selects a user by their email.
  *
  * @param string $email
  * @return array|false
@@ -23,10 +25,11 @@ function getOneUserByEmail(string $email): array|false{
     $sql->execute(["em" => $email]);
     return $sql->fetch();
 }
+
 /**
- * Selectionne un utilisateur par son id.
+ * Selects a user by their ID.
  *
- * @param integer $id
+ * @param int $id
  * @return array|false
  */
 function getOneUserById(int $id): array|false{
@@ -35,8 +38,9 @@ function getOneUserById(int $id): array|false{
     $sql->execute([$id]);
     return $sql->fetch();
 }
+
 /**
- * Ajoute un utilisateur en BDD
+ * Adds a user to the database.
  *
  * @param string $us
  * @param string $em
@@ -54,10 +58,11 @@ function addUser(string $us, string $em, string $pass): array{
     $id = $pdo->lastInsertId();
     return getOneUserById($id);
 }
+
 /**
- * Supprime un utilisateur par son id.
+ * Deletes a user by their ID.
  *
- * @param integer $id
+ * @param int $id
  * @return void
  */
 function deleteUserById(int $id):void{
@@ -65,13 +70,14 @@ function deleteUserById(int $id):void{
     $sql = $pdo->prepare("DELETE FROM users WHERE idUser=?");
     $sql->execute([$id]);
 }
+
 /**
- * Met à jour l'utilisateur via son id.
+ * Updates a user by their ID.
  *
  * @param string $username
  * @param string $email
  * @param string $password
- * @param integer $id
+ * @param int $id
  * @return array
  */
 function updateUserById(string $username, string $email, string $password, int $id):array{
@@ -81,7 +87,7 @@ function updateUserById(string $username, string $email, string $password, int $
             email = :em,
             password = :mdp
             WHERE idUser = :id"
-            );
+    );
     $sql->execute([
         "id" => $id,
         "em" => $email,
@@ -90,4 +96,3 @@ function updateUserById(string $username, string $email, string $password, int $
     ]);
     return getOneUserById($id);
 }
-?>

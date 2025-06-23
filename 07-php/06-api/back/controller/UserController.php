@@ -1,5 +1,5 @@
 <?php 
-// Indique les méthodes acceptées par cette page :
+// Specifies the methods allowed for this page:
 header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE");
 
 session_start();
@@ -9,9 +9,9 @@ require __DIR__."/../../../ressources/service/_csrf.php";
 $regexPass = "/^(?=.*[!?@#$%^&*+-])(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{6,}$/";
 
 /* 
-    Le principe d'une api REST (REpresentational State Transfer)
-    est d'avoir pour une même adresse, (ici /06-api/back/user)
-    Différentes actions réalisées selon la méthode utilisée :
+    The principle of a REST API (REpresentational State Transfer)
+    is to have the same endpoint (here /06-api/back/user)
+    perform different actions depending on the HTTP method used:
 */
 switch($_SERVER["REQUEST_METHOD"])
 {
@@ -22,101 +22,105 @@ switch($_SERVER["REQUEST_METHOD"])
 }
 
 /**
- * Gère la page d'inscription.
+ * Handles the registration page.
  *
  * @return void
  */
 function create():void
 {
+    // Retrieve data in JSON format:
     $json = file_get_contents('php://input');
     $data = json_decode($json);
+
     $username = $email = $password = "";
     $error = setError();
     if($data && isset($data->userForm))
     {
-        // traitement username
+        // Username processing
         if(empty($data->username)){
-            setError("username", "Veuillez saisir un nom d'utilisateur");
+            setError("username", "Please enter a username");
         }else{
             $username = cleanData($data->username);
             if(!preg_match("/^[a-zA-Z' -]{2,25}$/", $username)){
-                setError("username", "Veuillez saisir un nom d'utilisateur Valide");
+                setError("username", "Please enter a valid username");
             }
         }
-        // Traitement email
+        // Email processing
         if(empty($data->email))
         {
-            setError("email", "Veuillez saisir un email");
+            setError("email", "Please enter an email");
         }
         else
         {
             $email = cleanData($data->email);
             if(!filter_var($email, FILTER_VALIDATE_EMAIL))
             {
-                setError("email", "Veuillez saisir un email valide");
+                setError("email", "Please enter a valid email");
             }
-            // Je vérifie si l'utilisateur existe en BDD
+            // Check if the user already exists in the DB
             $resultat = getOneUserByEmail($email);
             if($resultat)
             {
-                setError("email", "Cet email est déjà enregistré.");
+                setError("email", "This email is already registered.");
             }
         }
-        // Traitement password
+        // Password processing
         if(empty($data->password))
         {
-            setError("password", "Veuillez saisir un mot de passe");
+            setError("password", "Please enter a password");
         }
         else
         {
             $password = cleanData($data->password);
-            // on utilise la regex défini plus haut.
+            // use the regex defined above.
             global $regexPass;
             if(!preg_match($regexPass, $password))
             {
-                setError("password", "Veuillez saisir un mot de passe valide");
+                setError("password", "Please enter a valid password");
             }
             else
             {
                 $password = password_hash($password, PASSWORD_DEFAULT);
             }
         }
-        // vérification du mot de passe.
+        // Password confirmation check
         if(empty($data->passwordBis))
         {
-            setError("passwordBis", "Veuillez saisir à nouveau votre mot de passe");
+            setError("passwordBis", "Please re-enter your password");
         }
         elseif($data->password != $data->passwordBis)
 		{
-			setError("passwordBis", "Veuillez saisir le même mot de passe");
+			setError("passwordBis", "Passwords do not match");
 		}
         $error = setError();
-        // envoi des données.
+        // Data submission
         if(empty($error["violations"]))
         {
-            // J'ajoute mon utilisateur en BDD.
+            // Add the user to the DB
             $user = addUser($username, $email, $password);
-            sendResponse($user, 200, "Inscription validé");
+            sendResponse($user, 200, "Registration successful");
         }
     }
-    sendResponse($error, 400, "Formulaire incorrecte");
+    sendResponse($error, 400, "Invalid form data");
 }
+
 /**
- * Gère la liste des utilisateurs
+ * Handles the user list
  *
  * @return void
  */
 function read():void
 {
-    // Je récupère tous mes utilisateurs.
+    // Retrieve all users
     if(isset($_GET["id"]))
         $users = getOneUserById((int)$_GET["id"]);
     else
         $users = getAllUsers();
-    sendResponse($users, 200, "utilisateur(s) récupéré.");
+    sendResponse($users, 200, "User(s) retrieved.");
 }
+
 /**
- * Gère la page de mise à jour de l'utilisateur.
+ * Handles the user update page.
  *
  * @return void
  */
@@ -124,9 +128,9 @@ function update():void
 {
     if(!isset($_GET["id"],$_SESSION["idUser"]) || $_SESSION["idUser"] != $_GET["id"])
     {
-        sendResponse(setError(), 400, "Accès interdit!");
+        sendResponse(setError(), 400, "Access denied!");
     }
-    // Je récupère les informations de mon utilisateur.
+    // Retrieve the user's current data
     $user = getOneUserById((int)$_GET["id"]);
 
     $json = file_get_contents('php://input');
@@ -136,33 +140,33 @@ function update():void
 
     if($data && isset($data->userForm))
     {
-		// traitement username
+		// Username processing
         if(!empty($data->username))
         {
             $username= cleanData($data->username);
             if(!preg_match("/^[a-zA-Z' -]{2,25}$/", $username))
             {
-                setError("username", "Votre nom d'utilisateur ne peut contenir que des lettres.");
+                setError("username", "Your username may only contain letters.");
             }
         }
         else
         {
             $username = $user["username"];
         }
-		// traitement email
+		// Email processing
         if(!empty($data->email))
         {
             $email= cleanData($data->email);
             if(!filter_var($email, FILTER_VALIDATE_EMAIL))
             {
-                setError("email","Veuillez entrer un email valide");
+                setError("email","Please enter a valid email");
             }
             elseif($email != $user["email"])
             {
                 $exist = getOneUserByEmail($email);
                 if($exist)
                 {
-                    setError("email","Cet email existe déjà");
+                    setError("email","This email already exists");
                 }
             }
         }
@@ -170,22 +174,22 @@ function update():void
         {
             $email = $user["email"];
         }
-		// traitement password
+		// Password processing
         if(!empty($data->password))
         {
             if(empty($data->passwordBis))
             {
-                setError("passwordBis","Veuillez saisir à nouveau votre mot de passe");
+                setError("passwordBis","Please re-enter your password");
             }
             elseif($data->password != $data->passwordBis)
             {
-                setError("passwordBis","Veuillez saisir le même mot de passe");
+                setError("passwordBis","Passwords do not match");
             }
             $password = cleanData($data->password);
             global $regexPass;
             if(!preg_match($regexPass, $password))
             {
-                setError("password","Veuillez saisir un mot de passe valide");
+                setError("password","Please enter a valid password");
             }
             else
             {
@@ -199,18 +203,18 @@ function update():void
         $error = setError();
         if(empty($error["violations"]))
         {
-            // mis à jour de l'utilisateur.
+            // Update user in DB
             $user = updateUserById($username, $email, $password, $user["idUser"]);
             
-            sendResponse($user, 200, "Utilisateur mis à jour");
+            sendResponse($user, 200, "User updated");
         }
     }
     
-    sendResponse($error, 400, "Formulaire incorrecte");
-
+    sendResponse($error, 400, "Invalid form data");
 }
+
 /**
- * Gère la page de suppression de l'utilisateur.
+ * Handles the user deletion page.
  *
  * @return void
  */
@@ -218,15 +222,14 @@ function delete():void
 {
     if(!isset($_GET["id"], $_SESSION["idUser"]) || $_SESSION["idUser"] != $_GET["id"])
     {
-        sendResponse($_SESSION, 400, "Accès interdit!");
+        sendResponse($_SESSION, 400, "Access denied!");
     }
-    // On supprime l'utilisateur
+    // Delete the user
     deleteUserById((int)$_GET["id"]);
-    // Et on le déconnecte.
+    // Log the user out
     unset($_SESSION);
     session_destroy();
     setcookie("PHPSESSID","", time()-3600);
         
-    sendResponse([], 200, "compte supprimé et déconnecté");
+    sendResponse([], 200, "Account deleted and logged out");
 }
-?>
