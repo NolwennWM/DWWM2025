@@ -22,11 +22,11 @@ if($users):
             </a>
             <?php if(isset($_SESSION["idUser"]) && ($_SESSION["idUser"]) == $row["idUser"]): ?>
             &nbsp;|&nbsp;
-            <a href="./user/update?id=<?php echo $row["idUser"] ?>">
+            <a href="./profil?id=<?php echo $row["idUser"] ?>">
                 Éditer.
             </a>
             &nbsp;|&nbsp;
-            <a href="./user/delete?id=<?php echo $row["idUser"] ?>">
+            <a href="./profil/supprimer?id=<?php echo $row["idUser"] ?>">
                 Supprimer.
             </a>
             <?php endif; ?>

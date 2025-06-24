@@ -95,12 +95,8 @@ function updateUser():void
 {
     shouldBeLogged(true, "/05-mvc");
 
-    if(empty($_GET["id"]) || $_SESSION["idUser"] != $_GET["id"]){
-        header("Location: /05-mvc");
-        exit;
-    }
     // Je récupère les informations de mon utilisateur.
-    $user = getOneUserById($_GET["id"]);
+    $user = getOneUserById($_SESSION["idUser"]);
 
     $username = $password = $email = "";
     $error = [];
@@ -166,12 +162,8 @@ function deleteUser():void
 {
     shouldBeLogged(true, "./exercice/connexion.php");
 
-    if(empty($_GET["id"]) || $_SESSION["idUser"] != $_GET["id"]){
-        header("Location: /05-mvc");
-        exit;
-    }
     // On supprime l'utilisateur
-    deleteUserById($_GET["id"]);
+    deleteUserById($_SESSION["idUser"]);
     // Et on le déconnecte.
     unset($_SESSION);
     session_destroy();
