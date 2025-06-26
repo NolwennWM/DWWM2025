@@ -5,4 +5,5 @@ fontawesome-*
 node_modules/
 vendor/
 .env
+!/**/08-symfony/**/.env
 *.log
