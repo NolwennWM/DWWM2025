@@ -189,7 +189,7 @@ require "./ressources/template/_header.php";
                 </li>
             </ol>
         </li>
-        <!-- <li>
+        <li>
             <h3>07 - POO :</h3>
             <ol>
                 <li>
@@ -201,16 +201,10 @@ require "./ressources/template/_header.php";
                 <li>
                     <h4>Exercice :</h4>
                     <ul>
-                        <li>
-                            <a href="./06-poo/connexion">Connexion</a>
-                        </li>
-                        <li>
-                            <a href="./06-poo/deconnexion">Déconnexion</a>
-                        </li>
                     </ul>
                 </li>
             </ol>
-        </li> -->
+        </li>
     </ol>
 <?php 
 require "./ressources/template/_footer.php";
