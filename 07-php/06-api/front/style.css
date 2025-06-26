@@ -1,0 +1,23 @@
+*, ::before, ::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body
+{
+    display: grid;
+    min-height: 100vh;
+    grid-template-rows: auto 1fr auto;
+}
+header, footer
+{
+    background-color: lightskyblue;
+    text-align: center;
+}
+main{
+    opacity: 0;
+    transition: opacity 0.5s linear;
+}
+.show{
+    opacity: 1;
+}
