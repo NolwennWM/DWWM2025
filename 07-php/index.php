@@ -33,7 +33,7 @@ require "./ressources/template/_header.php";
                 <li>
                     <a href="./01-syntaxe/09-a-header.php">header</a>
                 </li>
-                <!-- <li>
+                <li>
                     <a href="./01-syntaxe/10-a-poo.php">POO part 1</a>
                 </li>
                 <li>
@@ -41,7 +41,7 @@ require "./ressources/template/_header.php";
                 </li>
                 <li>
                     <a href="./01-syntaxe/10-c-poo.php">POO part 3</a>
-                </li> -->
+                </li>
             </ol>
         </li>
         <li>
