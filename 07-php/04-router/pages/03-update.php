@@ -1,12 +1,7 @@
 <?php
 require "../ressources/service/_shouldBeLogged.php";
 shouldBeLogged(true, "/04-router/connexion");
-/* 
-    Si l'utilisateur n'est pas connecté, il est redirigé.
-    Si l'utilisateur vient sur cette page sans indiquer d'id, il est redirigé. 
-    Si l'utilisateur vient sur cette page sans que ce soit son id, il est redirigé. 
-*/
-isSelectedUser("/04-router/");
+
 // Je récupère les informations de mon utilisateur.
 require "../ressources/service/_csrf.php";
 require("../ressources/service/_pdo.php");
