@@ -1,19 +1,19 @@
 <?php
 /* 
-    Le role de cette classe va être de faire les require des autres classes automatiquement.
+    The purpose of this class is to automatically require other classes.
 */
 class Autoloader
 {
     public static function register()
     {
         /* 
-            spl_autoload_register va permettre d'appeler la fonction en callback à chaque fois qu'une nouvelle classe est appelé.
+            spl_autoload_register will allow the callback function to be called each time a new class is used.
         */
         spl_autoload_register(function(string $class)
         {
             /* 
-                Le string fourni contiendra le namespace.
-                On va se servir de ce namespace comme si c'était des noms de dossier:
+                The provided string will contain the namespace.
+                We will treat this namespace as if it were folder names:
             */
             $file = str_replace("\\",DIRECTORY_SEPARATOR,$class) .".php";
             if(file_exists($file))

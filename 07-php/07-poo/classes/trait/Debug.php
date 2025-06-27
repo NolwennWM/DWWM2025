@@ -4,20 +4,20 @@ namespace Classes\Trait;
 trait Debug
 {
     /**
-     * Affiche ce qui est fourni en argument de façon plus jolie
+     * Displays the provided arguments in a prettier way
      *
      * @param any[] ...$values
      * @return void
      */
     public function dump(...$values)
     {
-        // Paramètre du highlight_string
+        // highlight_string settings
         ini_set("highlight.comment","#008000");
         ini_set("highlight.default","#000000");
         ini_set("highlight.html","#808080");
         ini_set("highlight.keyword","#0000BB; font-weight: bold");
         ini_set("highlight.string","#DD0000");
-        // css de la balise pre 
+        // CSS for the <pre> tag
         $style = 
         "background-color:gray;
         color: white;
@@ -33,8 +33,9 @@ trait Debug
             echo "<pre style='$style'>$message</pre>";
         }
     }
+
     /**
-     * Affiche ce qui est fourni en argument puis "DIE"
+     * Displays the provided arguments and then stops execution
      *
      * @param any[] ...$values
      * @return void

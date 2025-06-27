@@ -5,7 +5,7 @@ use \PDOStatement;
 
 require __DIR__."/../../../ressources/service/_pdo.php";
 /**
- * Classe abtraite devant être hérités aux différents modèles.
+ * Abstract class to be inherited by different models.
  */
 abstract class AbstractModel
 {
@@ -15,15 +15,16 @@ abstract class AbstractModel
     public function __contruct()
     {
         $this->pdo = connexionPDO();
-        // On change le fetch mode pour avoir des classes plutôt que des tableaux associatif :
+        // We change the fetch mode to get objects instead of associative arrays:
         $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_CLASS);
     }
+
     /**
-     * Paramètre le fetch mode pour indiquer quelle classe utiliser
+     * Sets the fetch mode to indicate which class to use
      * 
-     * le & devant le paramètre permet d'indiquer que les modifications devront être apportée à la variable même en dehors de la fonction.
+     * The & before the parameter indicates that changes will apply to the variable outside the function as well.
      *
-     * @param PDOStatement $sql Requête SQL.
+     * @param PDOStatement $sql SQL query
      * @return PDOStatement
      */
     private function setFetchMode(PDOStatement &$sql):PDOStatement
@@ -31,10 +32,11 @@ abstract class AbstractModel
         $sql->setFetchMode(PDO::FETCH_CLASS, $this->linkedClass);
         return $sql;
     }
+
     /**
-     * Lance la requête en argument et paramètre le fetch mode
+     * Runs the query and sets the fetch mode
      *
-     * @param string $query requête SQL
+     * @param string $query SQL query
      * @return PDOStatement
      */
     protected function runQuery(string $query):PDOStatement
@@ -43,10 +45,11 @@ abstract class AbstractModel
         $this->setFetchMode($sql);
         return $sql;
     }
+
     /**
-     * Prepare la requête en argument et paramètre le fetch mode
+     * Prepares the query and sets the fetch mode
      *
-     * @param string $query requête SQL
+     * @param string $query SQL query
      * @return PDOStatement
      */
     protected function prepareQuery(string $query):PDOStatement
