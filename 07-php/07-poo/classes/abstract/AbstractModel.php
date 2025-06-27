@@ -5,7 +5,7 @@ use \PDOStatement;
 
 require __DIR__."/../../../ressources/service/_pdo.php";
 /**
- * Classe abtraite devant être hérités aux différents modèles.
+ * 各モデルに継承されるべき抽象クラス。
  */
 abstract class AbstractModel
 {
@@ -15,15 +15,16 @@ abstract class AbstractModel
     public function __contruct()
     {
         $this->pdo = connexionPDO();
-        // On change le fetch mode pour avoir des classes plutôt que des tableaux associatif :
+        // デフォルトのフェッチモードを連想配列ではなくクラスとして取得するように変更します。
         $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_CLASS);
     }
+
     /**
-     * Paramètre le fetch mode pour indiquer quelle classe utiliser
+     * 使用するクラスを指定するためにフェッチモードを設定します。
      * 
-     * le & devant le paramètre permet d'indiquer que les modifications devront être apportée à la variable même en dehors de la fonction.
+     * 引数に & をつけることで、関数の外でも変数が変更されるようになります。
      *
-     * @param PDOStatement $sql Requête SQL.
+     * @param PDOStatement $sql 実行済みのSQL文
      * @return PDOStatement
      */
     private function setFetchMode(PDOStatement &$sql):PDOStatement
@@ -31,10 +32,11 @@ abstract class AbstractModel
         $sql->setFetchMode(PDO::FETCH_CLASS, $this->linkedClass);
         return $sql;
     }
+
     /**
-     * Lance la requête en argument et paramètre le fetch mode
+     * 引数のクエリを実行し、フェッチモードを設定します。
      *
-     * @param string $query requête SQL
+     * @param string $query 実行するSQL文
      * @return PDOStatement
      */
     protected function runQuery(string $query):PDOStatement
@@ -43,10 +45,11 @@ abstract class AbstractModel
         $this->setFetchMode($sql);
         return $sql;
     }
+
     /**
-     * Prepare la requête en argument et paramètre le fetch mode
+     * 引数のクエリをプリペアし、フェッチモードを設定します。
      *
-     * @param string $query requête SQL
+     * @param string $query プリペアするSQL文
      * @return PDOStatement
      */
     protected function prepareQuery(string $query):PDOStatement

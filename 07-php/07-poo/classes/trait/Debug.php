@@ -4,20 +4,21 @@ namespace Classes\Trait;
 trait Debug
 {
     /**
-     * Affiche ce qui est fourni en argument de façon plus jolie
+     * 引数として渡された値を見やすく表示します。
      *
-     * @param any[] ...$values
+     * @param any[] ...$values 任意の値（複数可）
      * @return void
      */
     public function dump(...$values)
     {
-        // Paramètre du highlight_string
+        // highlight_string の表示色を設定
         ini_set("highlight.comment","#008000");
         ini_set("highlight.default","#000000");
         ini_set("highlight.html","#808080");
         ini_set("highlight.keyword","#0000BB; font-weight: bold");
         ini_set("highlight.string","#DD0000");
-        // css de la balise pre 
+
+        // preタグのCSSスタイルを設定
         $style = 
         "background-color:gray;
         color: white;
@@ -33,10 +34,11 @@ trait Debug
             echo "<pre style='$style'>$message</pre>";
         }
     }
+
     /**
-     * Affiche ce qui est fourni en argument puis "DIE"
+     * 引数を表示し、その後スクリプトの実行を停止します。
      *
-     * @param any[] ...$values
+     * @param any[] ...$values 任意の値（複数可）
      * @return void
      */
     public function dd(...$values)

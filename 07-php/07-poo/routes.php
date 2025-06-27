@@ -1,8 +1,4 @@
 <?php
-/* 
-    Les controllers perdent le ".php" et gagnent une majuscule.
-    les fonctions prennent des noms plus simple.
-*/
 const ROUTES = [
     "07-poo"=>[
         "controller"=>"Controller\UserController", 
