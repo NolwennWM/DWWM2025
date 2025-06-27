@@ -1,23 +1,25 @@
 <?php 
 namespace Classes\Abstract;
+
 /**
- * Classe abstraite qui devra être hérité aux entités.
- * Une entité est une classe qui représente une table de ma base de donnée.
- * Par exemple une entité "user" contiendrait les même champs que ma table user en bdd.
+ * Abstract class to be inherited by entities.
+ * An entity is a class representing a table in the database.
+ * For example, a "user" entity would contain the same fields as the user table in the DB.
  */
 abstract class AbstractEntity
 {
     /**
-     * Valide les différentes propriétés de l'entité
+     * Validates the various properties of the entity
      *
-     * @return array tableau contenant les erreurs possible.
+     * @return array Array containing possible errors.
      */
     abstract public function validate():array;
+
     /**
-     * Nettoie le string fourni pour éviter les attaques XSS ou de simples erreurs d'espace en trop.
+     * Cleans the provided string to avoid XSS attacks or simple whitespace errors.
      *
-     * @param string $data données à nettoyer
-     * @return string données propres
+     * @param string $data Data to clean
+     * @return string Cleaned data
      */
     protected function cleanData(string $data):string
     {

@@ -2,7 +2,7 @@
 namespace Classes\Interface;
 
 /**
- * Interface indiquant qu'une classe servant de CRUD doit contenir une fonction pour chaque élément du CRUD.
+ * Interface indicating that a class used as a CRUD must contain one function for each CRUD action.
  */
 interface CrudInterface
 {

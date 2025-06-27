@@ -1,17 +1,17 @@
 <?php
-// Pour le fonctionnement de mon autoloader, je met un namespace correspondant à mes dossiers
+// To make the autoloader work, I set a namespace matching my folders
 namespace Classes\Abstract;
 
 require __DIR__."/../../../ressources/service/_shouldBeLogged.php";
 require __DIR__."/../../../ressources/service/_csrf.php";
 /** 
- *    Une classe abstraite ne peut être instancié.
- *   le rôle de celle ci, sera d'être hérité à tous les controllers afin de leur apporter des fonctions en commun.
+ * An abstract class cannot be instantiated.
+ * Its role is to be inherited by all controllers to provide them with shared functions.
 */
 abstract class AbstractController
 {
     /**
-     * Affiche les messages flash
+     * Displays flash messages
      *
      * @return void
      */
@@ -23,8 +23,9 @@ abstract class AbstractController
             unset($_SESSION["flash"]);
         }
     }
+
     /**
-     * Enregistre un message flash.
+     * Stores a flash message.
      *
      * @param string $message
      * @return void
@@ -33,13 +34,14 @@ abstract class AbstractController
     {
         $_SESSION["flash"] = $message;
     }
+
     /**
-     * Affiche la vue demandée.
+     * Displays the requested view.
      * 
-     * En options, on peut passer un tableau associatif avec les variables à envoyer à la vue.
+     * Optionally, an associative array can be passed with variables to send to the view.
      *
-     * @param string $view Chemin de la vue depuis le dossier "view"
-     * @param array $variables données à envoyer à la vue
+     * @param string $view Path of the view from the "view" folder
+     * @param array $variables Data to send to the view
      * @return void
      */
     protected function render(string $view, array $variables = []):void
@@ -47,48 +49,51 @@ abstract class AbstractController
         foreach($variables as $name => $value)
         {
             /* 
-                Exemple :
-                Si on envoi le tableau suivant : ["users"=>$users]
-                Ici il produira une variable $users qui contiendra la liste des utilisateurs
-                $$ permet de créer un nom de variable dynamique.
+                Example:
+                If we send the following array: ["users"=>$users]
+                This will produce a $users variable containing the user list
+                $$ is used to create a dynamic variable name.
             */
             $$name = $value;
         }
-        // Notre fonction intègre automatiquement le header et le footer autour de nos vues.
+        // Our function automatically integrates the header and footer around our views.
         require __DIR__."/../../../ressources/template/_header.php";
         require __DIR__."/../../view/$view";
         require __DIR__."/../../../ressources/template/_footer.php";
     }
+
     /**
-     * Vérifie si l'utilisateur à accès à la page ou non selon si il est connecté
+     * Checks whether the user has access to the page depending on whether they are logged in
      * 
-     * Si le boolean est à "true", bloque l'accès aux utilisateurs non connectés
-     * Si le boolean est à "false", bloque l'accès aux utilisateurs connectés
+     * If the boolean is "true", blocks access to unauthenticated users
+     * If "false", blocks access to authenticated users
      *
-     * @param boolean $bool Doit être connecté ou non
-     * @param string $redirect chemin de redirection
+     * @param boolean $bool Must be logged in or not
+     * @param string $redirect Redirection path
      * @return void
      */
     protected function shouldBeLogged(bool $bool = true, string $redirect = "/"):void
     {
         shouldBeLogged($bool, $redirect);
     }
+
     /**
-     * Paramètre un token en session et ajoute un input:hidden contenant le token
+     * Sets a token in session and adds a hidden input containing the token
      * 
-     * Optionnellement ajoute un temps de vie au jeton
+     * Optionally adds a lifespan to the token
      *
-     * @param integer $time temps de vie du jeton
+     * @param integer $time Token lifetime
      * @return void
      */
     protected function setCSRF(int $time = 0): void
     {
         setCSRF($time);
     }
+
     /**
-     * Vérifie si le jeton CSRF est valide.
+     * Checks if the CSRF token is valid.
      *
-     * @return boolean true si valide.
+     * @return boolean true if valid.
      */
     protected function isCSRFValid():bool
     {

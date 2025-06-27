@@ -1,6 +1,6 @@
 <?php
 /**
- * Récupère la route et lance à la classe et méthode correspondante
+ * Gets the route and launches the corresponding class and method
  */ 
 class Router
 {
@@ -13,9 +13,9 @@ class Router
         if(array_key_exists($url, ROUTES))
         {
             $route = ROUTES[$url];
-            // J'instancie la classe associé:
+            // Instantiate the associated class:
             $controller = new ($route["controller"])();
-            // J'appelle la méthode correspondante :
+            // Call the corresponding method:
             $controller->{$route["fonction"]}();
         }
         else
