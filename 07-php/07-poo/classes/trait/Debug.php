@@ -20,7 +20,7 @@ trait Debug
 
         // preタグのCSSスタイルを設定
         $style = 
-        "background-color:gray;
+        "background-color: #DDDDDD;
         color: white;
         width: fit-content;
         padding: 1rem;
@@ -41,7 +41,7 @@ trait Debug
      * @param any[] ...$values 任意の値（複数可）
      * @return void
      */
-    public function dd(...$values)
+    public function dieAndDump(...$values)
     {
         $this->dump(...$values);
         die;

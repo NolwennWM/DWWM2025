@@ -12,7 +12,7 @@ abstract class AbstractModel
     protected PDO $pdo;
     protected string $linkedClass = "ChangeInModelClass";
 
-    public function __contruct()
+    public function __construct()
     {
         $this->pdo = connexionPDO();
         // デフォルトのフェッチモードを連想配列ではなくクラスとして取得するように変更します。

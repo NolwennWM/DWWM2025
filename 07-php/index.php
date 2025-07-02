@@ -193,10 +193,10 @@ require "./ressources/template/_header.php";
             <h3>07 - POO :</h3>
             <ol>
                 <li>
-                    <a href="./06-poo/">Liste Utilisateur</a>
+                    <a href="./07-poo/">Liste Utilisateur</a>
                 </li>
                 <li>
-                    <a href="./06-poo/inscription">Inscription</a>
+                    <a href="./07-poo/inscription">Inscription</a>
                 </li>
                 <li>
                     <h4>Exercice :</h4>
