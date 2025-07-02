@@ -2,7 +2,10 @@
 namespace Entity;
 
 use Classes\Abstract\AbstractEntity;
-
+/* 
+    このエンティティはデータベース内のテーブルを表します。
+    プロパティの名前はテーブルのカラムに対応しています。
+*/
 class UserEntity extends AbstractEntity
 {
     private int $idUser = 0;
@@ -15,9 +18,9 @@ class UserEntity extends AbstractEntity
 
     private const REGEX_PASS = "/^(?=.*[!?@#$%^&*+-])(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{6,}$/";
     /**
-     * Vérifier que les différents champs de l'entité sont valide.
+     * エンティティの各フィールドが有効かどうかを確認します。
      *
-     * @return array tableau contenant les erreurs;
+     * @return array エラーを含む配列
      */
     public function validate():array
     {
@@ -25,43 +28,43 @@ class UserEntity extends AbstractEntity
         // username :
         if(empty($this->username))
         {
-            $errors["username"] = "Veuillez saisir un nom d'utilisateur";
+            $errors["username"] = "ユーザー名を入力してください";
         }
         elseif(!preg_match("/^[a-zA-Z'\s-]{2,25}$/", $this->username))
         {
-            $errors["username"] = "Veuillez saisir un nom d'utilisateur valide";
+            $errors["username"] = "有効なユーザー名を入力してください";
         }
         // email :
         if(empty($this->email))
         {
-            $errors["email"] = "Veuillez saisir un email";
+            $errors["email"] = "メールアドレスを入力してください";
         }
         elseif(!filter_var($this->email, FILTER_VALIDATE_EMAIL))
         {
-            $errors["email"] = "Veuillez saisir un email valide";
+            $errors["email"] = "有効なメールアドレスを入力してください";
         }
-        // password et confirm password :
+        // password と confirm password :
         if(empty($this->password) || !empty($this->plainPassword))
         {
             //password :
             if(empty($this->plainPassword))
             {
-                $errors["password"] = "Veuillez saisir un mot de passe";
+                $errors["password"] = "パスワードを入力してください";
             }
             elseif(!preg_match(self::REGEX_PASS, $this->plainPassword))
             {
-                $errors["password"] = "Veuillez saisir un mot de passe valide (toute la collection de caractères habituelle)";
+                $errors["password"] = "有効なパスワードを入力してください（通常使用される文字をすべて含む必要があります）";
             }
             //confirm password 
             if(empty($this->passwordConfirm))
             {
-                $errors["passwordConfirm"] = "Veuillez confirmer votre mot de passe";
+                $errors["passwordConfirm"] = "パスワードを確認してください";
             }
             elseif($this->passwordConfirm !== $this->plainPassword)
             {
-                $errors["passwordConfirm"] = "Veuillez saisir le même mot de passe";
+                $errors["passwordConfirm"] = "同じパスワードを入力してください";
             }
-
+            // エラーがなければパスワードをハッシュ化し、一時的なフィールドを初期化する
             if(empty($errors))
             {
                 $this->password = password_hash($this->plainPassword, PASSWORD_DEFAULT);
@@ -89,7 +92,7 @@ class UserEntity extends AbstractEntity
     public function setUsername(string $username): void
     {
         $username = $this->cleanData($username);
-        // Je change le nom d'utilisateur seulement si il est différent du nom actuel.
+        //  現在のユーザー名と異なる場合のみ、ユーザー名を変更する
         if($username !== $this->username)
         {
             $this->username = $username;
@@ -116,7 +119,7 @@ class UserEntity extends AbstractEntity
     public function setPassword(string $pass): void
     {
         $pass = trim($pass);
-        // J'utilise plainPassword tant que le mot de passe n'est pas haché.
+        // パスワードがハッシュ化されていない間は plainPassword を使用する
         $this->plainPassword = $pass;
     }
     #confirm password 
