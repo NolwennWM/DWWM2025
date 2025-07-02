@@ -12,7 +12,7 @@ abstract class AbstractModel
     protected PDO $pdo;
     protected string $linkedClass = "ChangeInModelClass";
 
-    public function __contruct()
+    public function __construct()
     {
         $this->pdo = connexionPDO();
         // On change le fetch mode pour avoir des classes plutôt que des tableaux associatif :
