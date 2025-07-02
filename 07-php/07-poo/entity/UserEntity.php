@@ -2,7 +2,10 @@
 namespace Entity;
 
 use Classes\Abstract\AbstractEntity;
-
+/* 
+    The entity represents a table in our database.
+    It has properties whose names correspond to the columns of our table.
+*/
 class UserEntity extends AbstractEntity
 {
     private int $idUser = 0;
@@ -15,9 +18,9 @@ class UserEntity extends AbstractEntity
 
     private const REGEX_PASS = "/^(?=.*[!?@#$%^&*+-])(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{6,}$/";
     /**
-     * Vérifier que les différents champs de l'entité sont valide.
+     * Check that the various fields of the entity are valid.
      *
-     * @return array tableau contenant les erreurs;
+     * @return array an array containing the errors;
      */
     public function validate():array
     {
@@ -25,20 +28,20 @@ class UserEntity extends AbstractEntity
         // username :
         if(empty($this->username))
         {
-            $errors["username"] = "Veuillez saisir un nom d'utilisateur";
+            $errors["username"] = "Please enter a username";
         }
         elseif(!preg_match("/^[a-zA-Z'\s-]{2,25}$/", $this->username))
         {
-            $errors["username"] = "Veuillez saisir un nom d'utilisateur valide";
+            $errors["username"] = "Please enter a valid username";
         }
         // email :
         if(empty($this->email))
         {
-            $errors["email"] = "Veuillez saisir un email";
+            $errors["email"] = "Please enter an email";
         }
         elseif(!filter_var($this->email, FILTER_VALIDATE_EMAIL))
         {
-            $errors["email"] = "Veuillez saisir un email valide";
+            $errors["email"] = "Please enter a valid email";
         }
         // password et confirm password :
         if(empty($this->password) || !empty($this->plainPassword))
@@ -46,20 +49,20 @@ class UserEntity extends AbstractEntity
             //password :
             if(empty($this->plainPassword))
             {
-                $errors["password"] = "Veuillez saisir un mot de passe";
+                $errors["password"] = "Please enter a password";
             }
             elseif(!preg_match(self::REGEX_PASS, $this->plainPassword))
             {
-                $errors["password"] = "Veuillez saisir un mot de passe valide (toute la collection de caractères habituelle)";
+                $errors["password"] = "Please enter a valid password (all usual character types)";
             }
             //confirm password 
             if(empty($this->passwordConfirm))
             {
-                $errors["passwordConfirm"] = "Veuillez confirmer votre mot de passe";
+                $errors["passwordConfirm"] = " Please confirm your password";
             }
             elseif($this->passwordConfirm !== $this->plainPassword)
             {
-                $errors["passwordConfirm"] = "Veuillez saisir le même mot de passe";
+                $errors["passwordConfirm"] = "Please enter the same password";
             }
 
             if(empty($errors))
@@ -89,7 +92,7 @@ class UserEntity extends AbstractEntity
     public function setUsername(string $username): void
     {
         $username = $this->cleanData($username);
-        // Je change le nom d'utilisateur seulement si il est différent du nom actuel.
+        // Change the username only if it's different from the current one.
         if($username !== $this->username)
         {
             $this->username = $username;
@@ -116,7 +119,7 @@ class UserEntity extends AbstractEntity
     public function setPassword(string $pass): void
     {
         $pass = trim($pass);
-        // J'utilise plainPassword tant que le mot de passe n'est pas haché.
+        // I use plainPassword as long as the password is not hashed.
         $this->plainPassword = $pass;
     }
     #confirm password 

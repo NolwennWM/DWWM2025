@@ -8,61 +8,66 @@ use Model\UserModel;
 
 class UserController extends AbstractController implements CrudInterface
 {
+    use \Classes\Trait\Debug;
+
     private UserModel $db;
+
     public function __construct()
     {
         $this->db = new UserModel();
     }
+
     /**
-     * Gère la page d'inscription
+     * Handles the registration page.
      *
      * @return void
      */
     public function create()
     {
-        // Si on est connecté, on est redirigé ailleurs
+        // If the user is logged in, redirect elsewhere.
         $this->shouldBeLogged(false, "/07-poo");
 
         $errors = [];
         $user = new UserEntity();
 
-        if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['userForm']))
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userForm']))
         {
-            // Je rempli mon entité :
-            $user->setUsername($_POST["username"]??"");
-            $user->setEmail($_POST["email"]??"");
-            $user->setPassword($_POST["password"]??"");
-            $user->setPasswordConfirm($_POST["passwordConfirm"]??"");
+            // Fill the entity with form data.
+            $user->setUsername($_POST["username"] ?? "");
+            $user->setEmail($_POST["email"] ?? "");
+            $user->setPassword($_POST["password"] ?? "");
+            $user->setPasswordConfirm($_POST["passwordConfirm"] ?? "");
 
-            // Je vérifie si il y a des erreurs :
+            // Check for validation errors.
             $errors = $user->validate();
 
             $resultat = $this->db->getOneUserByEmail($user->getEmail());
             if($resultat)
             {
-                $errors["email"] = "Cet Email est déjà enregistré";
+                $errors["email"] = "This email is already registered.";
             }
 
             if(empty($errors))
             {
                 $this->db->addUser($user);
-                $this->setFlash("Inscription prise en compte.");
+                $this->setFlash("Registration successful.");
 
                 header("Location: /07-poo");
                 exit;
             }
         }
-        // J'appelle ma vue :
+
+        // Render the view.
         $this->render("user/inscription.php", [
-            "error"=>$errors,
-            "user"=>$user,
-            "title"=>"POO - Inscription",
-            "required"=>"required"
+            "error"   => $errors,
+            "user"    => $user,
+            "title"   => "POO - Registration",
+            "required"=> "required"
         ]);
     }
-    use \Classes\Trait\Debug;  
+
     /**
-     * Gère la page "liste des utilisateurs"
+     * Handles the "user list" page.
      *
      * @return void
      */
@@ -71,11 +76,20 @@ class UserController extends AbstractController implements CrudInterface
         $users = $this->db->getAllUsers();
         // $this->dieAndDump($users);
         // $this->dump($users);
+
         $this->render("user/list.php", [
-            "users"=>$users,
-            "title"=>"POO - Liste Utilisateur"
+            "users" => $users,
+            "title" => "POO - User List"
         ]);
     }
-    public function update(){echo "update user fonctionne";}
-    public function delete(){echo "delete user fonctionne";}
+
+    public function update()
+    {
+        echo "update user works";
+    }
+
+    public function delete()
+    {
+        echo "delete user works";
+    }
 }
