@@ -7,8 +7,9 @@ use Entity\UserEntity;
 class UserModel extends AbstractModel
 {
     protected string $linkedClass = UserEntity::class;
+
     /**
-     * Récupère tous les utilisateurs.
+     * すべてのユーザーを取得します。
      *
      * @return array|false
      */
@@ -17,8 +18,9 @@ class UserModel extends AbstractModel
         $sql = $this->runQuery("SELECT idUser, username FROM users");
         return $sql->fetchAll();
     }
+
     /**
-     * Recherche un utilisateur via son email
+     * メールアドレスでユーザーを検索します。
      *
      * @param string $email
      * @return UserEntity|false
@@ -29,8 +31,9 @@ class UserModel extends AbstractModel
         $sql->execute(["em"=>$email]);
         return $sql->fetch();
     }
+
     /**
-     * Recherche un utilisateur via son id.
+     * IDでユーザーを検索します。
      *
      * @param integer $id
      * @return UserEntity|false
@@ -41,8 +44,9 @@ class UserModel extends AbstractModel
         $sql->execute([$id]);
         return $sql->fetch();
     }
+
     /**
-     * Ajoute un utilisateur en BDD.
+     * ユーザーをデータベースに追加します。
      *
      * @param UserEntity $user
      * @return void
@@ -52,8 +56,9 @@ class UserModel extends AbstractModel
         $sql = $this->prepareQuery("INSERT INTO users(username, email, password) VALUES (?,?,?)");
         $sql->execute([$user->getUsername(), $user->getEmail(), $user->getPassword()]);
     }
+
     /**
-     * Supprime un utilisateur via son ID
+     * IDでユーザーを削除します。
      *
      * @param integer $id
      * @return void
@@ -63,8 +68,9 @@ class UserModel extends AbstractModel
         $sql = $this->prepareQuery("DELETE FROM users WHERE idUser = ?");
         $sql->execute([$id]);
     }
+
     /**
-     * Met à jour un utilisateur via son ID.
+     * IDでユーザーを更新します。
      *
      * @param UserEntity $user
      * @return void
