@@ -19,7 +19,7 @@ trait Debug
         ini_set("highlight.string","#DD0000");
         // css de la balise pre 
         $style = 
-        "background-color:gray;
+        "background-color: #DDDDDD;
         color: white;
         width: fit-content;
         padding: 1rem;
@@ -39,7 +39,7 @@ trait Debug
      * @param any[] ...$values
      * @return void
      */
-    public function dd(...$values)
+    public function dieAndDump(...$values)
     {
         $this->dump(...$values);
         die;
