@@ -2,7 +2,10 @@
 namespace Entity;
 
 use Classes\Abstract\AbstractEntity;
-
+/* 
+    L'entité représente une table de notre BDD
+    Elle a des propriétés dont les noms correspondent aux colonnes de notre table.
+*/
 class UserEntity extends AbstractEntity
 {
     private int $idUser = 0;
