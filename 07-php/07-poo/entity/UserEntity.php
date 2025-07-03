@@ -3,8 +3,13 @@ namespace Entity;
 
 use Classes\Abstract\AbstractEntity;
 /* 
+<<<<<<< HEAD
     このエンティティはデータベース内のテーブルを表します。
     プロパティの名前はテーブルのカラムに対応しています。
+=======
+    L'entité représente une table de notre BDD
+    Elle a des propriétés dont les noms correspondent aux colonnes de notre table.
+>>>>>>> main
 */
 class UserEntity extends AbstractEntity
 {

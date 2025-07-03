@@ -82,14 +82,91 @@ class UserController extends AbstractController implements CrudInterface
             "title" => "POO - User List"
         ]);
     }
-
+    /**
+     * プロフィール更新ページを処理します。
+     *
+     * @return void
+     */
     public function update()
     {
-        echo "ユーザーの更新が機能します";
+        // プロフィールを更新するにはログインが必要です。
+        $this->shouldBeLogged(true, "/07-poo");
+
+        // ユーザー情報を取得する。
+        $user = $this->db->getOneUserById((int)$_SESSION["idUser"]);
+
+        $errors = [];
+
+        // フォームが送信された場合：
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userForm']))
+        {
+            // 現在のメールアドレスを取得する。
+            $oldEmail = $user->getEmail();
+
+            // 新しいデータでユーザーオブジェクトを埋める。
+            $user->setUsername($_POST["username"] ?? "");
+            $user->setEmail($_POST["email"] ?? "");
+            $user->setPassword($_POST["password"] ?? "");
+            $user->setPasswordConfirm($_POST["passwordConfirm"] ?? "");
+
+            // 入力をバリデーション。
+            $errors = $user->validate();
+
+            // 新しいメールアドレスが入力されたか確認。
+            if(!empty($_POST["email"]) && trim($_POST["email"]) !== $oldEmail)
+            {
+                // 他のユーザーが既にこのメールアドレスを使っていないか確認。
+                $exist = $this->db->getOneUserByEmail($user->getEmail());
+                if($exist)
+                {
+                    $errors["email"] = "このメールアドレスは既に使用されています。";
+                }
+            } // メール確認の終了
+
+            // エラーがなければデータベースを更新。
+            if(empty($errors))
+            {
+                $this->db->updateUserById($user);
+
+                // 確認メッセージをセット。
+                $this->setFlash("プロフィールが更新されました。");
+
+                // ユーザーをリダイレクト。
+                header("Location: /07-poo");
+                exit;
+            }
+        } // フォーム送信の確認終了
+
+        // ビューを読み込む。
+        $this->render("user/update.php", [
+            "error" => $errors,
+            "user" => $user,
+            "title" => "POO - Profile Update"
+        ]);
     }
 
+    /**
+     * アカウント削除ページを処理します。
+     *
+     * @return void
+     */
     public function delete()
     {
-        echo "ユーザーの削除が機能します";
+        // ユーザーがログインしていない場合はリダイレクト。
+        $this->shouldBeLogged(true, "/07-poo");
+
+        // 現在ログインしているユーザーのアカウントを削除する。
+        $this->db->deleteUserById((int)$_SESSION["idUser"]);
+
+        // ユーザーをログアウトさせる。
+        session_destroy();
+        unset($_SESSION);
+        setCookie("PHPSESSID", "", time()-3600);
+
+        // 数秒後にリダイレクト。
+        header("refresh: 5;url=/07-poo");
+
+        // 確認メッセージを表示。
+        $this->render("user/delete.php", ["title" => "POO - Account Deletion"]);
     }
 }
