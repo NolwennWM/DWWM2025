@@ -3,8 +3,13 @@ namespace Entity;
 
 use Classes\Abstract\AbstractEntity;
 /* 
+<<<<<<< HEAD
     The entity represents a table in our database.
     It has properties whose names correspond to the columns of our table.
+=======
+    L'entité représente une table de notre BDD
+    Elle a des propriétés dont les noms correspondent aux colonnes de notre table.
+>>>>>>> main
 */
 class UserEntity extends AbstractEntity
 {
