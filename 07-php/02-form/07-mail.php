@@ -6,5 +6,5 @@
     Pour l'installer nous allons avoir besoin du gestionnaire de packet "composer" qui lui même aura besoin d'une installation de "PHP".
 
     Pour installer PHPMailer, on tapera la commande :
-        * ***REMOVED*** phpmailer/phpmailer
+        * composer require phpmailer/phpmailer
 */

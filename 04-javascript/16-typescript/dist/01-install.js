@@ -6,7 +6,7 @@
     Dont la principale, qui se trouve dans le nom, le typage.
 
     ? Installation :
-        * ***REMOVED*** typescript --save-dev
+        * npm install typescript --save-dev
 
     ? transpiler un fichier :
         * npx tsc pathToFile.ts
