@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *, ::before, ::after{
     margin: 0;
     padding: 0;
@@ -161,3 +162,8 @@ p{
         padding: 5px;
     }
 }
+=======
+body {
+    background-color: skyblue;
+}
+>>>>>>> c85670fdcff826d9d234aea68c5d1f8e0366c0f8
