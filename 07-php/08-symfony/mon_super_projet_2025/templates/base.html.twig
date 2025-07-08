@@ -12,14 +12,18 @@
         {% endblock %}
     </head>
     <body>
-<<<<<<< HEAD
         {% include "layout/_header.html.twig" %}
         <main class="{{mainClass ?? '' }}">
+            {# On récupère toute les catégories #}
+            {% for label, messagesList in app.flashes %}
+                {% for message in messagesList %}
+                    <div class="alert alert-{{label}}">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endfor %}
             {% block body %}{% endblock %}
         </main>
         {% include "layout/_footer.html.twig" %}
-=======
-        {% block body %}{% endblock %}
->>>>>>> c85670fdcff826d9d234aea68c5d1f8e0366c0f8
     </body>
 </html>

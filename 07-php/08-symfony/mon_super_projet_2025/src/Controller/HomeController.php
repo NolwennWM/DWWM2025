@@ -29,6 +29,8 @@ final class HomeController extends AbstractController
     public function hello($username): RedirectResponse
     {
         // dd("Hello $username");
+        $this->addFlash("bonjour", "Hello $username !");
+        $this->addFlash("redirect", "Vous avez été redirigé !");
         return $this->redirectToRoute("app_bonjour", ["nom"=>"smith", "prenom"=>$username]);
     }
     #[Route("/bonjour/{nom<^[a-zA-Z]+$>}/{prenom<^[a-zA-Z]+$>?Jean}", name:"app_bonjour")]
@@ -37,6 +39,18 @@ final class HomeController extends AbstractController
         // dump($request);
         // die;
         // dd($request);
+        $sess = $request->getSession();
+        if($sess->has("nbVisite"))
+        {
+            $nb = $sess->get("nbVisite") + 1;
+        }
+        else
+        {
+            $nb = 1;
+        }
+        $sess->set("nbVisite", $nb);
+
+        $this->addFlash("bonjour", "Bonjour $prenom $nom !");
         return $this->render("home/bonjour.html.twig", [
             "title"=>"Bonjour le monde !",
             "nom"=>$nom,
