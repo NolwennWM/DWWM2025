@@ -98,7 +98,6 @@ final class MessageController extends AbstractController
             if($form->isSubmitted() && $form->isValid())
             {
                 // dd($message);
-                $em->persist($message);
                 $em->flush();
 
                 $this->addFlash("success", "Un nouveau message a été ajouté");
