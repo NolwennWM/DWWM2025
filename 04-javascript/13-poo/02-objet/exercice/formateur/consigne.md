@@ -6,7 +6,7 @@ Dans leurs fichiers, aucun code autre que l'export ou des commentaires ne doit s
 
 Veuillez documenter toute vos méthodes et propriétés telle que :
 
-***REMOVED***javascript
+```javascript
 /** Un objet super utile */
 const monObjet = {
     /** string très utile */
@@ -22,7 +22,7 @@ const monObjet = {
         return a*b
     }
 }
-***REMOVED***
+```
 
 ## 0. Fonctionnalité optionnelle ##
 
@@ -34,14 +34,14 @@ Utilisez les méthodes "**créate**" de vos projets pour récupérer leurs élé
 
 L'index.html doit contenir au moins ce code :
 
-***REMOVED***html
+```html
 <select id="appli" size="3">
     <option value="justePrix">Juste prix</option>
     <option value="paint">Paint</option>
     <option value="slider">Slider</option>
 </select>
 <div class="appli"></div>
-***REMOVED***
+```
 
 Selon l'élément selectionné dans le select, vous devez afficher dans la div "appli" le projet correspondant.
 

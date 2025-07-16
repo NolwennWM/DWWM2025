@@ -7,3 +7,4 @@ vendor/
 .env
 !/**/08-symfony/**/.env
 *.log
+bfg.jar

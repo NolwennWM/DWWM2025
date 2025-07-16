@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des messages{% endblock %}
+
+{% block body %}
+    <div class="pagination">
+        {# Si on n'est pas sur la première page, on affiche "première" et "Précédente" #}
+        {% if currentPage > 1 %}
+            <a href="{{path('app_message_read', {nb:nombre, page:1})}}">Première</a> |
+            <a href="{{path('app_message_read', {nb:nombre, page:currentPage - 1})}}">Précédente</a> |
+        {% endif %}
+
+        {# Affichage des chiffres : #}
+        {% for i in range(max(1, currentPage - 2), min(nbPage, currentPage + 2)) %}
+            <a href="{{path('app_message_read', {nb:nombre, page:i})}}" style="font-weight:{{ i == currentPage ? 'bold':'normal'}}">{{i}}</a>
+        {% endfor %}
+
+        {# Si on est sur la dernière page, on n'affiche pas "suivante" et "dernière" #}
+        {% if currentPage < nbPage %}
+            <a href="{{ path('app_message_read', {nb:nombre, page: currentPage + 1}) }}">Suivante</a> |
+            <a href="{{ path('app_message_read', {nb:nombre, page: nbPage}) }}">Dernière</a>
+        {% endif %}
+    </div>
+    {% for message in listMessage %}
+        <div class="message">
+            <div class="date1">
+                Ajouté le {{message.createdAt | date("d/m/Y")}}
+            </div>
+            <div class="date2">
+                {{message.editedAt?"édité le "~ message.editedAt | date("d/m/Y"):""}}
+            </div>
+            <p>{{message.content}}</p>
+            <div class="btns">
+                <a href="{{ path('app_message_delete', {id:message.id}) }}">Supprimer</a>
+                {% if message.category %}
+                    <a href="">{{message.category.name}}</a>
+                {% endif %}
+                
+                {# TODO ajouter des boutons #}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

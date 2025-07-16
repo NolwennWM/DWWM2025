@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# This file is optional.
+# Place this file in the ".git/hooks" directory to automate tests on each push.
+
+PHPUNIT=./07-php/vendor/bin/phpunit
+TEST_DIR=./07-php/09-testing/tests
+
+echo "Pre-push hook detected"
+
+# Check if the RUN_TESTS variable is set to 1
+# Works only under Git Bash or Linux terminal
+if [ "$RUN_TESTS" != "1" ]; then
+    echo "RUN_TESTS is not set -> skipping tests"
+    # Exit successfully -> allow the push
+    exit 0;
+fi
+
+# Run PHPUnit tests:
+echo "Tests enabled: Running PHPUnit..."
+# Path to PHPUnit followed by the test directory:
+$PHPUNIT $TEST_DIR
+
+# Check exit code:
+if [ $? -ne 0 ]; then
+    echo "Tests failed. Push blocked."
+    # Exit with error -> cancel the push
+    exit 1
+fi
+
+echo "Tests passed. Push allowed"
+exit 0
+# To run this with Git Bash: `RUN_TESTS="1" git push;` will trigger the tests.

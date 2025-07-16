@@ -6,9 +6,9 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 To start a local development server, run:
 
-***REMOVED***bash
+```bash
 ng serve
-***REMOVED***
+```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
@@ -16,23 +16,23 @@ Once the server is running, open your browser and navigate to `http://localhost:
 
 Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
-***REMOVED***bash
+```bash
 ng generate component component-name
-***REMOVED***
+```
 
 For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
 
-***REMOVED***bash
+```bash
 ng generate --help
-***REMOVED***
+```
 
 ## Building
 
 To build the project run:
 
-***REMOVED***bash
+```bash
 ng build
-***REMOVED***
+```
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
@@ -40,17 +40,17 @@ This will compile your project and store the build artifacts in the `dist/` dire
 
 To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
 
-***REMOVED***bash
+```bash
 ng test
-***REMOVED***
+```
 
 ## Running end-to-end tests
 
 For end-to-end (e2e) testing, run:
 
-***REMOVED***bash
+```bash
 ng e2e
-***REMOVED***
+```
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
