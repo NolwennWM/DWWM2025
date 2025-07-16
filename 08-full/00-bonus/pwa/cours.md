@@ -34,7 +34,11 @@ C'est à dire qu'elle doit être visitable par les robots des moteurs de recherc
 
 Elle doit aussi contenir à sa racine, un fichier nommé `manifest.json`, ce fichier va contenir tout un tas d'informations au sujet du site. Mais au minimum il faudra ceci :
 
+<<<<<<< HEAD
 ***REMOVED***json
+=======
+```json
+>>>>>>> 7ce526fb08218336d5d481a02b6fa373cd4acc65
 {
     "name": "Super PWA",
     "icons":[
@@ -52,7 +56,11 @@ Elle doit aussi contenir à sa racine, un fichier nommé `manifest.json`, ce fic
     "start_url": "./?source=pwa",
     "display": "standalone"
 }
+<<<<<<< HEAD
 ***REMOVED***
+=======
+```
+>>>>>>> 7ce526fb08218336d5d481a02b6fa373cd4acc65
 
 - Le nom du site,
 - les icons en petit et grand format
@@ -61,9 +69,15 @@ Elle doit aussi contenir à sa racine, un fichier nommé `manifest.json`, ce fic
 
 Ensuite on ira lier le manifest dans le head de notre site:
 
+<<<<<<< HEAD
 ***REMOVED***html
 <link rel="manifest" href="manifest.json">
 ***REMOVED***
+=======
+```html
+<link rel="manifest" href="manifest.json">
+```
+>>>>>>> 7ce526fb08218336d5d481a02b6fa373cd4acc65
 
 Si dans les outils de développement nous allons dans "**Application**" sur chrome, nous verrons le menu "**manifest**" qui nous rappelle les informations du manifest.
 
@@ -93,12 +107,20 @@ Nous allons créer deux fichiers :
 
 Nous allons pour l'instant laisser le premier vide, voyons notre script.js :
 
+<<<<<<< HEAD
 ***REMOVED***javascript
+=======
+```javascript
+>>>>>>> 7ce526fb08218336d5d481a02b6fa373cd4acc65
 if("serviceWorker" in navigator)
 {
     navigator.serviceWorker.register("./sw.js");
 }
+<<<<<<< HEAD
 ***REMOVED***
+=======
+```
+>>>>>>> 7ce526fb08218336d5d481a02b6fa373cd4acc65
 
 Tous les navigateurs ne supportent pas "**serviceWorker**", on vérifie donc si on y a accès.
 Si oui alors nous allons enregistrer notre fichier "**sw.js**".
@@ -129,9 +151,15 @@ Pour obtenir ce résultat, on mélangera les technologies suivantes :
 
 Mais pour commencer, on pourra se contenter de venir ajouter ceci à notre fichier "**sw.js**" :
 
+<<<<<<< HEAD
 ***REMOVED***javascript
 self.addEventListener("fetch", ()=>{});
 ***REMOVED***
+=======
+```javascript
+self.addEventListener("fetch", ()=>{});
+```
+>>>>>>> 7ce526fb08218336d5d481a02b6fa373cd4acc65
 
 On indique à notre service worker que quand on requête (on va chercher) notre page, on va faire une action particulière. (bien que pour l'instant nous ne faisons rien)
 
@@ -172,15 +200,25 @@ Il faut qu'un utilisateur qui n'a pas mis à jour son navigateur ai une experien
 
 Une des pratiques permettant cela, est la "**Feature Detection**", cela consiste en ce que nous avons fait plus haut :
 
+<<<<<<< HEAD
 ***REMOVED***javascript
 if("serviceWorker" in navigator)
 ***REMOVED***
+=======
+```javascript
+if("serviceWorker" in navigator)
+```
+>>>>>>> 7ce526fb08218336d5d481a02b6fa373cd4acc65
 
 vérifier l'existence d'une technologie avant de l'utiliser. Cela évitera une erreur si elle n'est pas disponible sur un navigateur.
 
 Une autre pratique est le "**polyfill**", cela consiste en la création de morceau de code permettant de remplacer les fonctionnalités qui ne serait pas disponible sur un navigateur :
 
+<<<<<<< HEAD
 ***REMOVED***javascript
+=======
+```javascript
+>>>>>>> 7ce526fb08218336d5d481a02b6fa373cd4acc65
 // Exemple : si la fonction trunc n'existe pas, alors je l'implémente.
 if (!Math.trunc) {
   Math.trunc = function(number) {
@@ -188,7 +226,11 @@ if (!Math.trunc) {
   };
 }
 // On pourrait imaginer de même avec fetch par exemple en créant un équivalent avec xmlHttpRequest
+<<<<<<< HEAD
 ***REMOVED***
+=======
+```
+>>>>>>> 7ce526fb08218336d5d481a02b6fa373cd4acc65
 
 Cela a pour limite que cela ne fonctionnera qu'avec les propriétés et fonctions.
 Avant 2020, l'opérateur "??" n'existait pas, et on ne peut pas le remplacer simplement.
@@ -198,12 +240,20 @@ Cet un outil qui a pour rôle de compiler un code dans un autre langage, ou alor
 
 Un transpiler connu pour javascript est babel js.
 
+<<<<<<< HEAD
 ***REMOVED***javascript
+=======
+```javascript
+>>>>>>> 7ce526fb08218336d5d481a02b6fa373cd4acc65
 // exemple :
 const h = element.height??100;
 // le code ci-dessus deviendra :
 var h = (element.height !== undefined && element.height !== null)? element.height:100;
+<<<<<<< HEAD
 ***REMOVED***
+=======
+```
+>>>>>>> 7ce526fb08218336d5d481a02b6fa373cd4acc65
 
 ## Re-engageable ##
 

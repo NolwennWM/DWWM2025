@@ -11,7 +11,10 @@ vendor/
 !/**/08-symfony/**/.env
 *.log
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> main
 =======
 bfg.jar
+=======
+>>>>>>> 7ce526fb08218336d5d481a02b6fa373cd4acc65
 >>>>>>> main

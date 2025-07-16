@@ -7,6 +7,6 @@
     このライブラリをインストールするには、「composer」というパッケージマネージャーが必要です。
     そして composer を使うには、PHP自体がインストールされている必要があります。
 
-    Pour installer PHPMailer, on tapera la commande :
+    PHPMailerをインストールするには、以下のコマンドを実行します：
         * composer require phpmailer/phpmailer
 */
