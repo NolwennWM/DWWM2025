@@ -10,7 +10,7 @@ class CalculatorTest extends TestCase
 
     protected function setUp():void
     {
-        // Instanciation avant chaque test
+        // 各テストの前にインスタンスを初期化する
         $this->calculator = new Calculator();
     }
     public function testAdd()

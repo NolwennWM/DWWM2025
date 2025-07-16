@@ -1,32 +1,33 @@
 #!/bin/bash
 
-# Fichier à placer dans le dossier ".git/hooks" si on souhaite automatiser les test à chaque push.
+# このファイルは必須ではありません。
+# 毎回の push 時にテストを自動実行したい場合は、".git/hooks" ディレクトリに配置します。
 
 PHPUNIT=./07-php/vendor/bin/phpunit
 TEST_DIR=./07-php/09-testing/tests
 
-echo "Hook pre-push détecté"
+echo "pre-push フックが検出されました"
 
-# Vérifie si la variable RUN_TESTS est définie à 1
-# Ne fonctionen que sous git bash ou terminal linux
+# 環境変数 RUN_TESTS が 1 に設定されているか確認
+# Git Bash または Linux ターミナルでのみ動作します
 if [ "$RUN_TESTS" != "1" ]; then
-    echo "RUN_TESTS n'est pas défini -> pas de tests"
-    # Quitte avec succès -> autorise le push
+    echo "RUN_TESTS が設定されていない -> テストをスキップします"
+    # 正常終了 -> push を許可
     exit 0;
 fi
 
-# Lancer les tests PHPUnit :
-echo "Tests activés : Lancement de PHPUnit..."
-# Chemin vers phpunit suivi du chemin vers le dossier de test:
+# PHPUnit テストを実行：
+echo "テスト有効：PHPUnit を実行中..."
+# phpunit へのパスのあとにテストディレクトリのパスを指定：
 $PHPUNIT $TEST_DIR
 
-# Vérifie le code de sortie :
+# 終了コードを確認：
 if [ $? -ne 0 ]; then
-    echo "Tests échoués. Push bloqué."
-    # Quitte le hook avec une erreur -> annule le push
+    echo "テストに失敗しました。Push はブロックされました。"
+    # エラー終了 -> push をキャンセル
     exit 1
 fi
 
-echo "Tests réussis. Push Autorisé"
+echo "テスト成功。Push を許可します"
 exit 0
-# En lançant sur git bash `RUN_TESTS="1" git push;` les tests seront lancées.
+# Git Bash で実行するには：`RUN_TESTS="1" git push;` とすればテストが実行されます。
