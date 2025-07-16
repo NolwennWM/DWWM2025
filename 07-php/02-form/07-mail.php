@@ -6,7 +6,5 @@
     To install it, we’ll need the package manager "composer", which itself requires a PHP installation.
 
     To install PHPMailer, use the command:
-        * phpmailer/phpmailer
-
-    TODO everything disappeared
+        * composer require phpmailer/phpmailer
 */
